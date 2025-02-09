@@ -10,9 +10,10 @@ Instalar las siguientes dependencias para su funcionamiento:
 * `npm install cors` - Permite solicitudes desde distintos dispositivos
 * `npm install nodemon -D` - Recarga automáticamente el servidor en desarrollo
 * `npm install mongoose` - Para hacer la conexión a la base de datos
+* `npm install mongoose-unique-validator --legacy-peer-deps` -  Plugin para Mongoose que mejora los mensajes de error en campos unique.
 * `npm install body-parser` - Convierte datos a JSON
 * `npm install dotenv --save` - Manejo de variables de entorno
-* `npm install bcrypt` - Encriptación de contraseñas
+* `npm install bcryptjs` - Encriptación de contraseñas
 * `npm install jsonwebtoken` - Generación de tokens JWT
 
 ## Endpoints
