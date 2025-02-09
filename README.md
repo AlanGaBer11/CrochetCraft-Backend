@@ -25,6 +25,8 @@ Instalar las siguientes dependencias para su funcionamiento:
 | POST   | `/api/users` | Crea un nuevo usuario |
 | PATCH  | `/api/users/:id` | Actualiza un usuario |
 | DELETE | `/api/users/:id` | Elimina un usuario |
+| REGISTER | `/api/users/register` | Registra un usuario |
+| LOGIN | `api/users/login` | Logea un usuario|
 
 ### Products
 | Método | Endpoint | Descripción |
@@ -36,5 +38,5 @@ Instalar las siguientes dependencias para su funcionamiento:
 | DELETE | `/api/products/:id` | Elimina un producto |
 
 ## Seguridad
-* Se usa **bcrypt** para encriptar contraseñas.
+* Se usa **bcryptjs** para encriptar contraseñas.
 * Se usa **JWT (jsonwebtoken)** para autenticar usuarios.
