@@ -5,8 +5,9 @@ const userSchema = new mongoose.Schema({
   //? ROLES, ADMIN??
   nombre: {
     type: String,
+  
     required: [true, "El nombre es necesario"],
-    trim: true // ELIMINA ESPACIOS
+    trim: true // ELIMINA ESPACIOS SI ES NECESARIO
   },
   email: {
     type: String,
@@ -20,10 +21,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "La contraseña es obligatoria"],
   },
-}, { timestamps: true });
+}, { timestamps: true }
+);
 
 // PLUGIN PARA VERIFICAR LOS CAMPOS ÚNICOS
 userSchema.plugin(uniqueValidator, { message: '{PATH} debe ser único' });
 
-const userModel = mongoose.model("Users", userSchema);
-module.exports = userModel;
+module.exports = mongoose.model("Users", userSchema);

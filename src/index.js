@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 3000;
 
 // IMPORTAR RUTAS
 const userRoutes = require('./routes/userRoutes');
+const productRoutes = require('./routes/productRoutes');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -22,6 +23,7 @@ app.get('/', (req, res) => {
 
 // RUTAS DE APIS
 app.use('/api/users', userRoutes);
+app.use('/api/products', productRoutes);
 
 
 app.listen(PORT, () => {
