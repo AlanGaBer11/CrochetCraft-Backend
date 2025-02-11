@@ -1,4 +1,4 @@
-const userService = require('./userService');
+const userService = require('../services/userService');
 
 // GET ALL USERS
 const getAllUsers = async () => {
@@ -30,25 +30,10 @@ const deleteUser = async (id) => {
     return user;
 };
 
-/* AUTHENTICATION */
-// REGISTER USER CON CONTRASEÑA HASHEADA
-const registerUser = async (nombre, email, password) => {
-    const user = await userService.registerUser(nombre, email, password);
-    return user;
-};
-
-// LOGIN USER
-const loginUser = async (email, password) => {
-    const result = await userService.loginUser(email, password);
-    return result;
-};
-
 module.exports = {
     getAllUsers,
     getOneUser,
     createUser,
     updateUser,
     deleteUser,
-    registerUser,
-    loginUser
 };

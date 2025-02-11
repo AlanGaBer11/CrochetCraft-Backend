@@ -1,4 +1,4 @@
-const productModel = require('./productModel');
+const productModel = require('../models/productModel');
 
 // GET ALL PRODUCTS
 const getAllProduct = async() => {
@@ -6,7 +6,7 @@ const getAllProduct = async() => {
         const products = await productModel.find();
         return products;
     } catch (error) {
-        throw error;
+        throw new Error(`Error al obtener productos: ${error.message}`);
     }
 };
 
@@ -20,7 +20,10 @@ const getOneProduct = async(id) => {
         }
         return product;
     } catch (error) {
-        throw error;
+        if (error.name === 'CastError') {
+            throw new Error('ID de producto inválido');
+        }
+        throw new Error(`Error al buscar producto: ${error.message}`);
     }
 };
 
@@ -36,7 +39,10 @@ const createProduct = async(nombre, descripcion, precio, categoria) => {
         await newproduct.save();
         return "Producto Creado Con Éxito";
     } catch (error) {
-        throw error;
+        if (error.code === 11000) {
+            throw new Error('El nombre del producto ya está en uso');
+        }
+        throw new Error(`Error al crear producto: ${error.message}`);
     }
 };
 
@@ -52,7 +58,10 @@ const updateProduct = async(id, nombre, descripcion, precio, categoria) => {
         await productModel.findByIdAndUpdate(id, {nombre, descripcion, precio, categoria}, {new: true});
         return "Producto Actualizado Con Éxito";
     } catch (error) {
-        throw error;
+        if (error.name === 'CastError') {
+            throw new Error('ID de producto inválido');
+        }
+        throw new Error(`Error al actualizar producto: ${error.message}`);
     }
 };
 
@@ -66,7 +75,10 @@ const deleteProduct = async(id) => {
         }
         return "Producto Eliminado Con Éxito";
     } catch (error) {
-        throw error;
+        if (error.name === 'CastError') {
+            throw new Error('ID de producto inválido');
+        }
+        throw new Error(`Error al eliminar producto: ${error.message}`);
     }
 };
 

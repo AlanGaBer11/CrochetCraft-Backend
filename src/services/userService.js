@@ -1,15 +1,10 @@
-const userModel = require('./userModel');
+const userModel = require('../models/userModel');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 
 // GET ALL USERS
 const getAllUsers = async () => {
-    try {
-        const users = await userModel.find();
-        return users;
-    } catch (error) {
-        throw error;
-    }
+    const users = await userModel.find();
+    return users;
 };
 
 // GET USER BY ID
@@ -22,7 +17,10 @@ const getOneUser = async (id) => {
         }
         return user;
     } catch (error) {
-        throw error;
+        if (error.name === 'CastError') {
+            throw new Error('ID de usuario inválido');
+        }
+        throw new Error(`Error al buscar usuario: ${error.message}`);
     }
 };
 
@@ -39,7 +37,10 @@ const createUser = async (nombre, email, password) => {
         await newUser.save();
         return "Usuario Creado Con Éxito"
     } catch (error) {
-        throw error;
+        if (error.code === 11000) {
+            throw new Error('El email ya está en uso');
+        }
+        throw new Error(`Error al crear usuario: ${error.message}`);
     }
 };
 
@@ -62,7 +63,10 @@ const updateUser = async (id, nombre, email, password) => {
         );
         return "Usuario Actualizado Con Éxito";
     } catch (error) {
-        throw error;
+        if (error.name === 'CastError') {
+            throw new Error('ID de usuario inválido');
+        }
+        throw new Error(`Error al actualizar usuario: ${error.message}`);
     }
 };
 
@@ -76,52 +80,11 @@ const deleteUser = async (id) => {
         }
         return "Usuario Eliminado con Éxito";
     } catch (error) {
-        throw error;
-    }
-};
-
-
-/* AUTHENTICATION */
-// REGISTER USER
-const registerUser = async (nombre, email, password) => {
-    try {
-        // VERIFICAR SI EL EMAIL YA EXISTE
-        const existingUser = await userModel.findOne({ email });
-        if (existingUser) {
-            throw new Error('El Email Ya Está Registrado');
+        if (error.name === 'CastError') {
+            throw new Error('ID de usuario inválido');
         }
-        // HASHEAMOS LA CONTRASEÑA
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-        // CREAR NUEVO USUARIO
-        const newUser = new userModel({ nombre, email, password: hashedPassword });
-        await newUser.save();
-
-        return "Usuario Registrado Con Éxito";
-    } catch (error) {
-        throw error;
+        throw new Error(`Error al eliminar usuario: ${error.message}`);
     }
-};
-
-// LOGIN USER
-const loginUser = async (email, password) => {
-    try {
-        // VERIFICAR SI EL USUARIO EXISTE
-        const user  = await userModel.findOne({ email });
-            if (!user) {
-                throw new Error("El Usuario No Existe");
-            }
-        // VERIFICAR SI LA CONTRASEÑA ES CORRECTA
-        const isMatch = await bcrypt.compare(password, user.password);
-            if (!isMatch) {
-                throw new Error('Contraseña incorrecta');
-            }
-        // GENERAR UN TOKEN JWT
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        return { user, token };
-    } catch (error) {
-        throw error;
-    };
 };
 
 module.exports = {
@@ -129,7 +92,5 @@ module.exports = {
     getOneUser,
     createUser,
     updateUser,
-    deleteUser,
-    registerUser,
-    loginUser
+    deleteUser
 };

@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 3000;
 
 // IMPORTAR RUTAS
 const userRoutes = require('./routes/userRoutes');
+const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
 
 app.use(cors());
@@ -23,6 +24,7 @@ app.get('/', (req, res) => {
 
 // RUTAS DE APIS
 app.use('/api/users', userRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 
 
