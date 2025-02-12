@@ -5,19 +5,6 @@ let categorias = {
     values: ['Flores', 'Amigurumis', 'Llaveros', 'Ropa'],
     message: '{VALUE} no es una categoría válida'
 };
-/* const ImagenesSchema = new mongoose.Schema(
-    {
-        url: {
-            type: String,
-            required: [true, 'La URL es necesaria']
-        },
-        nombre: {
-            type: String,
-            required: [true, 'El nombre es necesario']
-        }
-
-    }
-); */
 
 const productSchema = new mongoose.Schema({
     nombre: {
@@ -33,16 +20,19 @@ const productSchema = new mongoose.Schema({
         type: Number,
         required: [true, 'El precio es necesario']
     },
-/*     stock: {
+    stock: {
         type: Number,
         required: [true, 'El stock es necesario']
-    } */
+    },
     categoria: {
         type: String,
         required: [true, 'La categoría es necesaria'],
         enum: categorias
     },
-    /* imagenes: [ImagenesSchema] */
+    urlImagenes: {
+        type: String,
+        required: [true, 'La imagen es necesaria']
+    }
 }, { timestamps: true },
 );
 

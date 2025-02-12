@@ -5,6 +5,8 @@ const cors = require('cors');
 const connection = require('./config/dbConnection');
 connection();
 
+/* AGREGAR CORS PARA LAS COOKIES */
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 

@@ -1,7 +1,7 @@
 const productService = require('../services/productService');
 
-const getAllProduct = async() => {
-    const products = await productService.getAllProduct()
+const getAllProducts = async() => {
+    const products = await productService.getAllProducts()
     return products
 };
 
@@ -10,13 +10,13 @@ const getOneProduct = async(id) => {
     return product;
 };
 
-const createProduct = async(nombre, descripcion, precio, categoria) => {
-    const product = await productService.createProduct(nombre, descripcion, precio, categoria);
+const createProduct = async(nombre, descripcion, precio, stock, categoria, urlImagenes) => {
+    const product = await productService.createProduct(nombre, descripcion, precio, stock, categoria, urlImagenes);
     return product;
 };
 
-const updateProduct = async(id, nombre, descripcion, precio, categoria) => {
-    const product = await productService.updateProduct(id, nombre, descripcion, precio, categoria)
+const updateProduct = async(id, nombre, descripcion, precio, stock, categoria, urlImagenes) => {
+    const product = await productService.updateProduct(id, nombre, descripcion, precio, stock, categoria, urlImagenes)
     return product;
 };
 
@@ -26,7 +26,7 @@ const deleteProduct = async(id) => {
 };
 
 module.exports = {
-    getAllProduct,
+    getAllProducts,
     getOneProduct,
     createProduct,
     updateProduct,

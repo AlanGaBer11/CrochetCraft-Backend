@@ -25,8 +25,10 @@ Instalar las siguientes dependencias para su funcionamiento:
 | POST   | `/api/users` | Crea un nuevo usuario |
 | PATCH  | `/api/users/:id` | Actualiza un usuario |
 | DELETE | `/api/users/:id` | Elimina un usuario |
-| REGISTER | `/api/users/register` | Registra un usuario |
-| LOGIN | `api/users/login` | Logea un usuario|
+
+### Auth
+| POST | `/api/auth/register` | Registra un usuario |
+| POST | `api/auth/login` | Logea un usuario|
 
 ### Products
 | Método | Endpoint | Descripción |
@@ -36,6 +38,7 @@ Instalar las siguientes dependencias para su funcionamiento:
 | POST   | `/api/products` | Crea un nuevo producto |
 | PATCH  | `/api/products/:id` | Actualiza un producto |
 | DELETE | `/api/products/:id` | Elimina un producto |
+
 
 ## Seguridad
 * Se usa **bcryptjs** para encriptar contraseñas.
