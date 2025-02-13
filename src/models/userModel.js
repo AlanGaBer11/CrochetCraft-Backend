@@ -43,4 +43,4 @@ const userSchema = new mongoose.Schema(
 // PLUGIN PARA VERIFICAR LOS CAMPOS ÚNICOS
 userSchema.plugin(uniqueValidator, { message: "{PATH} debe ser único" });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("users", userSchema);

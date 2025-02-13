@@ -15,12 +15,12 @@ const registerUser = async (req, res) => {
     // Registrar usuario
     const user = await authProcess.registerUser(nombre, email, password);
 
-    // Generar token
+/*  // Generar token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
-    });
+    }); */
 
-    res.status(201).json({ success: true, message: "Usuario Registrado", user, token });
+    res.status(201).json({ success: true, message: "Usuario Registrado", user, /* token */ });
   } catch (error) {
     console.error("Error Al Registrar El Usuario:", error);
     res.status(400).json({ success: false, message: error.message });
@@ -41,11 +41,9 @@ const loginUser = async (req, res) => {
     const user = await authProcess.loginUser(email, password);
 
     // Generar token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
 
-    res.status(200).json({ success: true, message: "Inicio de sesión exitoso", user, token });
+    res.status(200).json({ success: true, message: "Inicio de sesión exitoso", token, user });
   } catch (error) {
     console.error("Error Al Iniciar Sesión:", error);
 

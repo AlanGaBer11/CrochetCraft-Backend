@@ -39,4 +39,4 @@ const productSchema = new mongoose.Schema({
 // PLUGIN PARA VERIFICAR LOS CAMPOS ÚNICOS
 productSchema.plugin(uniqueValidator, { message: '{PATH} debe ser único' });
 
-module.exports  = mongoose.model("Product", productSchema);
+module.exports  = mongoose.model("products", productSchema);

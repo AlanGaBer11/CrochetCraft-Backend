@@ -18,8 +18,8 @@ const registerUser = async (nombre, email, password) => {
     // CREAR NUEVO USUARIO
     const newUser = new userModel({ nombre, email, password: hashedPassword });
     await newUser.save();
-
     return newUser;
+    
   } catch (error) {
     throw new Error(`Error En El registro: ${error.message}`);
   }

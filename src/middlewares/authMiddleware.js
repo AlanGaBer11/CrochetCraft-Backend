@@ -1,21 +1,31 @@
-const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 
-// Verifica si el usuario tiene un token válido
-const authenticateUser = async (req, res, next) => {
+const authMiddleware = (req, res, next) => {
     try {
-        const token = req.header('Authorization');
-        if (!token) return res.status(401).json({ message: 'Acceso denegado, token requerido' });
+        // Obtener el token del header
+        const token = req.headers.authorization?.split(' ')[1];
+        
+        if (!token) {
+            return res.status(401).json({
+                success: false,
+                message: 'Acceso Denegado, Token Requerido.'
+            });
+        }
 
-        // Verifica el token
+        // Verificar el token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = await User.findById(decoded.id).select('-password'); // Excluye la contraseña
-        if (!req.user) return res.status(401).json({ message: 'Token inválido' });
-
+        
+        // Agregar la información del usuario decodificada a la request
+        req.user = decoded;
+        
         next();
     } catch (error) {
-        return res.status(401).json({ message: 'Token inválido o expirado' });
+        return res.status(401).json({
+            success: false,
+            message: 'Token Invalido',
+            error: error.message
+        });
     }
 };
 
-module.exports = { authenticateUser };
+module.exports = authMiddleware;
