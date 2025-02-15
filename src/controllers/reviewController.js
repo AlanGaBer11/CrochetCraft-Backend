@@ -4,7 +4,10 @@ const reviewProcess = require("../processes/reviewProcess");
 const getReviews = async (req, res) => {
     try {
         const reviews = await reviewProcess.getReviews();
-        res.status(200).json({ success: true, reviews });
+        if(!reviews) {
+            return res.status(404).json({ success: false, message: "No Hay Reseñas" });
+        }
+        res.status(200).json({ success: true, message: "Reseñas Obtenidas", reviews });
     } catch (error) {
         console.error("Error Al Obtener Las Reseñas:", error);
         res.status(500).json({ success: false, message: "Error Interno Del Servidor" });
@@ -19,7 +22,7 @@ const getReviewById = async (req, res) => {
         if (!review) {
             return res.status(404).json({ success: false, message: "Reseña No Encontrada" });
         }
-        res.status(200).json({ success: true, review });
+        res.status(200).json({ success: true, message: "Reseña Obtenida", review });
     } catch (error) {
         console.error("Error Al Obtener La Reseña:", error);
         res.status(500).json({ success: false, message: "Error Interno Del Servidor" });
@@ -39,7 +42,7 @@ const createReview = async (req, res) => {
 
         // Crear orden
         const review = await reviewProcess.createReview( userId, productId, nombre, categoria, calificacion, comentario);
-        res.status(201).json({ success: true, message: "Reseña Creada Exitosamente", review });
+        res.status(201).json({ success: true, message: "Reseña Creada", review });
     } catch (error) {
         console.error("Error Al Crear La Reseña:", error);
         res.status(500).json({ success: false, message: "Error Interno Del Servidor" });
@@ -76,7 +79,7 @@ const deleteReview = async (req, res) => {
         if (!review) {
             return res.status(404).json({ success: false, message: "Reseña No Encontrada" });
         }
-        res.status(200).json({ success: true, message: "Reseña Eliminada Correctamente" });
+        res.status(200).json({ success: true, message: "Reseña Eliminada" });
     } catch (error) {
         console.error("Error Al Eliminar La Reseña:", error);
         res.status(500).json({ success: false, message: "Error Interno Del Servidor" });

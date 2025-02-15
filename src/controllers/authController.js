@@ -15,15 +15,10 @@ const registerUser = async (req, res) => {
     // Registrar usuario
     const user = await authProcess.registerUser(nombre, email, password);
 
-/*  // Generar token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    }); */
-
-    res.status(201).json({ success: true, message: "Usuario Registrado", user, /* token */ });
+    res.status(201).json({ success: true, message: "Usuario Registrado", user, });
   } catch (error) {
     console.error("Error Al Registrar El Usuario:", error);
-    res.status(400).json({ success: false, message: error.message });
+    res.status(400).json({ success: false, message: "Error Interno Del Servidor" });
   }
 };
 
@@ -34,7 +29,7 @@ const loginUser = async (req, res) => {
 
     // Validar datos obligatorios
     if (!email || !password) {
-      return res.status(400).json({ success: false, message: "Correo y contraseña son obligatorios" });
+      return res.status(400).json({ success: false, message: "Correo y Contraseña Son Obligatorios" });
     }
 
     // Obtener usuario autenticado
@@ -43,16 +38,16 @@ const loginUser = async (req, res) => {
     // Generar token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
 
-    res.status(200).json({ success: true, message: "Inicio de sesión exitoso", token, user });
+    res.status(200).json({ success: true, message: "Inicio De Sesión Exitoso", token, user });
   } catch (error) {
     console.error("Error Al Iniciar Sesión:", error);
 
     // Si el error es de autenticación, enviamos 401
-    if (error.message === "El Usuario No Existe" || error.message === "Contraseña incorrecta") {
+    if (error.message === "El Usuario No Existe" || error.message === "Contraseña Incorrecta") {
       return res.status(401).json({ success: false, message: error.message });
     }
 
-    res.status(500).json({ success: false, message: "Error interno del servidor" });
+    res.status(500).json({ success: false, message: "Error Interno Del Servidor" });
   }
 };
 

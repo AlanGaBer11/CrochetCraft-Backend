@@ -17,28 +17,57 @@ Instalar las siguientes dependencias para su funcionamiento:
 * `npm install jsonwebtoken` - Generación de tokens JWT
 
 ## Endpoints
-### Users
+### User
 | Método | Endpoint | Descripción |
-|--------|---------|-------------|
-| GET    | `/api/users` | Obtiene todos los usuarios |
-| GET    | `/api/users/:id` | Obtiene un usuario por ID |
-| POST   | `/api/users` | Crea un nuevo usuario |
-| PATCH  | `/api/users/:id` | Actualiza un usuario |
-| DELETE | `/api/users/:id` | Elimina un usuario |
+|--------|----------|-------------|
+| GET    | `/api/user` | Obtiene todos los usuarios |
+| GET    | `/api/user/:id` | Obtiene un usuario por ID |
+| POST   | `/api/user` | Crea un nuevo usuario |
+| PATCH  | `/api/user/:id` | Actualiza un usuario |
+| DELETE | `/api/user/:id` | Elimina un usuario |
 
 ### Auth
-| POST | `/api/auth/register` | Registra un usuario |
-| POST | `api/auth/login` | Logea un usuario|
-
-### Products
 | Método | Endpoint | Descripción |
-|--------|---------|-------------|
-| GET    | `/api/products` | Obtiene todos los productos |
-| GET    | `/api/products/:id` | Obtiene un producto por ID |
-| POST   | `/api/products` | Crea un nuevo producto |
-| PATCH  | `/api/products/:id` | Actualiza un producto |
-| DELETE | `/api/products/:id` | Elimina un producto |
+|--------|----------|-------------|
+| POST   | `/api/auth/register` | Registra un usuario |
+| POST   | `api/auth/login` | Logea un usuario|
 
+### Product
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| GET    | `/api/product` | Obtiene todos los productos |
+| GET    | `/api/product/:id` | Obtiene un producto por ID |
+| POST   | `/api/product` | Crea un nuevo producto |
+| PATCH  | `/api/product/:id` | Actualiza un producto |
+| DELETE | `/api/product/:id` | Elimina un producto |
+
+### Cart
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| GET    | `/api/cart` | Obtiene el carrito de un usuario|
+| POST   | `/api/cart/add` | Agrega un producto al carrito |
+| DELETE | `/api/cart/remove` | Elimina un producto del carrito |
+| DELETE | `/api/cart/clear` | Vacía el carrito |
+
+### Order
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| GET    | `/api/order` | Obtiene todas las ordenes |
+| GET    | `/api/order/:id` | Obtiene una orden por ID |
+| POST   | `/api/order` | Crea una nueva orden |
+| PATCH  | `/api/order/:id` | Actualiza una orden |
+| DELETE | `/api/order/:id` | Elimina una orden |
+
+### Review
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| GET    | `/api/review` | Obtiene todos las reseñas |
+| GET    | `/api/review/:id` | Obtiene una reseña por ID |
+| POST   | `/api/review` | Crea una nueva reseña |
+| PATCH  | `/api/review/:id` | Actualiza una reseña |
+| DELETE | `/api/review/:id` | Elimina una reseña |
+
+### Search
 
 ## Seguridad
 * Se usa **bcryptjs** para encriptar contraseñas.

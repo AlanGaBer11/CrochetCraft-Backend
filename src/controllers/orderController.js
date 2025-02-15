@@ -4,10 +4,13 @@ const orderProcess = require("../processes/orderProcess");
 const getOrders = async (req, res) => {
     try {
         const orders = await orderProcess.getOrders();
-        res.status(200).json({ success: true, orders });
+        if(!orders) {
+            return res.status(404).json({ success: false, message: "No Hay Ordenes" });
+        }
+        res.status(200).json({ success: true, message: "Ordenes Obtenidas", orders });
     } catch (error) {
         console.error("Error Al Obtener Las Ordenes:", error);
-        res.status(500).json({ success: false, message: "Error interno del servidor" });
+        res.status(500).json({ success: false, message: "Error Interno Del Servidor" });
     }
 };
 
@@ -17,12 +20,12 @@ const getOrderById = async (req, res) => {
         const { id } = req.params;
         const order = await orderProcess.getOrderById(id);
         if (!order) {
-            return res.status(404).json({ success: false, message: "Orden no encontrada" });
+            return res.status(404).json({ success: false, message: "Orden No Encontrada" });
         }
-        res.status(200).json({ success: true, order });
+        res.status(200).json({ success: true, message: "Orden Obtenida", order });
     } catch (error) {
-        console.error("Error al obtener la orden:", error);
-        res.status(500).json({ success: false, message: "Error interno del servidor" });
+        console.error("Error Al Obtener La Orden:", error);
+        res.status(500).json({ success: false, message: "Error Interno Del Servidor" });
     }
 };
 
@@ -30,19 +33,18 @@ const getOrderById = async (req, res) => {
 const createOrder = async (req, res) => {
     try {
         const { productId, cantidad, precio, precioTotal, status, metodoPago} = req.body;
-        const userId = req.user.id; // Se asume que el usuario está autenticado
+        const userId = req.user.id; 
 
         // Validar datos obligatorios
         if (!productId || !cantidad || !precio || !precioTotal || !status || !metodoPago) {
             return res.status(400).json({ success: false, message: "Todos Los Campos Son Obligatorios" });
         }
-
         // Crear orden
         const order = await orderProcess.createOrder( userId, productId, cantidad, precio, precioTotal, status, metodoPago);
-        res.status(201).json({ success: true, message: "Orden creada exitosamente", order });
+        res.status(201).json({ success: true, message: "Orden Creada", order });
     } catch (error) {
-        console.error("Error al crear la orden:", error);
-        res.status(500).json({ success: false, message: "Error interno del servidor" });
+        console.error("Error Al Crear La Orden:", error);
+        res.status(500).json({ success: false, message: "Error Interno Del Servidor" });
     }
 };
 
@@ -53,18 +55,18 @@ const updateOrderStatus = async (req, res) => {
         const { status } = req.body;
 
         if (!status) {
-            return res.status(400).json({ success: false, message: "El estado es obligatorio" });
+            return res.status(400).json({ success: false, message: "El Estado Es Obligatorio" });
         }
 
         const updatedOrder = await orderProcess.updateOrderStatus(id, status);
         if (!updatedOrder) {
-            return res.status(404).json({ success: false, message: "Orden no encontrada" });
+            return res.status(404).json({ success: false, message: "Orden No Encontrada" });
         }
 
-        res.status(200).json({ success: true, message: "Estado actualizado", updatedOrder });
+        res.status(200).json({ success: true, message: "Estado Actualizado", updatedOrder });
     } catch (error) {
-        console.error("Error al actualizar estado de orden:", error);
-        res.status(500).json({ success: false, message: "Error interno del servidor" });
+        console.error("Error Al Actualizar Estado De Orden:", error);
+        res.status(500).json({ success: false, message: "Error Interno Del Servidor" });
     }
 };
 
@@ -74,12 +76,12 @@ const deleteOrder = async (req, res) => {
         const { id } = req.params;
         const deletedOrder = await orderProcess.deleteOrder(id);
         if (!deletedOrder) {
-            return res.status(404).json({ success: false, message: "Orden no encontrada" });
+            return res.status(404).json({ success: false, message: "Orden No Encontrada" });
         }
-        res.status(200).json({ success: true, message: "Orden eliminada correctamente" });
+        res.status(200).json({ success: true, message: "Orden Eliminada Correctamente" });
     } catch (error) {
-        console.error("Error al eliminar la orden:", error);
-        res.status(500).json({ success: false, message: "Error interno del servidor" });
+        console.error("Error Al Eliminar La Orden:", error);
+        res.status(500).json({ success: false, message: "Error Interno Del Servidor" });
     }
 };
 

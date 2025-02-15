@@ -12,9 +12,9 @@ const getCart = async (req, res) => {
         .json({ success: false, message: "Carrito No Encontrado" });
     }
 
-    res.status(200).json({ success: true, data: cart });
+    res.status(200).json({ success: true, message: "Carrito Obtenido", cart });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: "Error Interno Del Servidor"});
   }
 };
 
@@ -22,16 +22,16 @@ const getCart = async (req, res) => {
 const addToCart = async (req, res) => {
   try {
     const { productId, cantidad } = req.body;
-    const userId = req.user.id; // Se asume que el usuario está autenticado
+    const userId = req.user.id;
 
     if (!productId || !cantidad) {
-      return res.status(400).json({success: false, message: "Producto y cantidad son obligatorios",});
+      return res.status(400).json({success: false, message: "Producto Y Cantidad Son Obligatorios",});
     }
 
     const cart = await cartProcess.addToCart(userId, productId, cantidad);
-    res.status(200).json({ success: true, data: cart });
+    res.status(200).json({ success: true, message: "Producto Agregado Al Carrito", cart });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: "Error Interno Del Servidor" });
   }
 };
 
@@ -44,13 +44,13 @@ const removeFromCart = async (req, res) => {
     if (!productId) {
       return res
         .status(400)
-        .json({ success: false, message: "ID del producto es obligatorio" });
+        .json({ success: false, message: "ID Del Producto Es Obligatorio" });
     }
 
     const cart = await cartProcess.removeFromCart(userId, productId);
-    res.status(200).json({ success: true, data: cart });
+    res.status(200).json({ success: true, message: "Producto Eliminado Del Carrito", cart });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: "Error Interno Del Servidor"});
   }
 };
 
@@ -59,10 +59,10 @@ const clearCart = async (req, res) => {
   try {
     const userId = req.user.id;
     const result = await cartProcess.clearCart(userId);
-    res.status(200).json({ success: true, message: result.message });
+    res.status(200).json({ success: true, result });
   } catch (error) {
     res.status(error.message === "El Carrito No Existe" ? 404 : 500)
-      .json({ success: false, message: error.message });
+      .json({ success: false, message: "Error Interno Del Servidor" });
   }
 };
 
