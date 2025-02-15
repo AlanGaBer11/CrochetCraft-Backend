@@ -9,14 +9,14 @@ const OrderSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "users",
       required: true,
     },
     items: [
       {
         productId: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Product",
+          ref: "products",
           required: true,
         },
         cantidad: { type: Number, required: true },
@@ -29,9 +29,9 @@ const OrderSchema = new mongoose.Schema(
       enum: status,
       default: "Pendiente",
     },
-    metodoPaago: { type: String, required: true },
+    metodoPago: { type: String, required: true },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Order", OrderSchema);
+module.exports = mongoose.model("orders", OrderSchema);

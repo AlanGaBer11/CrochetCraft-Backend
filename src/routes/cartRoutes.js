@@ -1,6 +1,6 @@
 const express = require("express");
 const cartController = require('../controllers/cartController');
-const authenticateUser  = require('../middlewares/authMiddleware'); // Importa la función correctamente
+const authenticateUser  = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 

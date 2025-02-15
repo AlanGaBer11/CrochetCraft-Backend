@@ -25,12 +25,7 @@ const addToCart = async (req, res) => {
     const userId = req.user.id; // Se asume que el usuario está autenticado
 
     if (!productId || !cantidad) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "Producto y cantidad son obligatorios",
-        });
+      return res.status(400).json({success: false, message: "Producto y cantidad son obligatorios",});
     }
 
     const cart = await cartProcess.addToCart(userId, productId, cantidad);

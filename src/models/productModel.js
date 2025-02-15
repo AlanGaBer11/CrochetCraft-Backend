@@ -7,7 +7,7 @@ let categorias = {
 };
 
 const productSchema = new mongoose.Schema({
-    nombre: {
+    nombre: { 
         type: String,
         required: [true, 'El nombre es necesario'],
         unique: true

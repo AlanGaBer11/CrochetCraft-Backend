@@ -26,6 +26,8 @@ const addToCart = async (userId, productId, cantidad) => {
   return cart;
 };
 
+/* ACTUALIZAR */
+
 // ELIMINAR PRODUCTO DEL CARRITO
 const removeFromCart = async (userId, productId) => {
   const cart = await cartModel.findOne({ userId });

@@ -15,6 +15,8 @@ const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
 const cartRoutes = require('./routes/cartRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
 
 
 app.use(cors());
@@ -27,11 +29,12 @@ app.get('/', (req, res) => {
 });
 
 // RUTAS DE APIS
-app.use('/api/users', userRoutes);
+app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
-app.use('/api/products', productRoutes);
+app.use('/api/product', productRoutes);
 app.use('/api/cart', cartRoutes);
-
+app.use('/api/order', orderRoutes);
+app.use('/api/review', reviewRoutes);
 app.listen(PORT, () => {
     console.log(`Escuchando en el puerto ${PORT}`);
 });
