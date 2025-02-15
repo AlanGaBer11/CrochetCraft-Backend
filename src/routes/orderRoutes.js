@@ -3,12 +3,11 @@ const router = express.Router();
 const orderController = require ('../controllers/orderController');
 const authenticateUser  = require('../middlewares/authMiddleware');
 
-
 router
-    .get('/', orderController.getOrders)
-    .get('/:id', orderController.getOrderById)
+    .get('/', authenticateUser, orderController.getOrders)
+    .get('/:id', authenticateUser, orderController.getOrderById)
     .post('/', authenticateUser, orderController.createOrder)
-    .patch('/:id', orderController.updateOrderStatus)
-    .delete('/:id', orderController.deleteOrder);
+    .patch('/:id', authenticateUser, orderController.updateOrderStatus)
+    .delete('/:id', authenticateUser, orderController.deleteOrder);
 
 module.exports = router;
