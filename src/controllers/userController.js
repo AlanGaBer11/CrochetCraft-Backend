@@ -70,10 +70,48 @@ const deleteUser = async (req, res) => {
   }
 };
 
+// Obtener perfil
+const getProfile = async (req, res) => {
+  try {
+      const userId = req.user.id;
+      const profile = await userService.getUserProfile(userId);
+      res.status(200).json({
+          success: true,
+          message: "Perfil Obtenido",
+          profile
+      });
+  } catch (error) {
+      res.status(400).json({
+          success: false,
+          message: error.message
+      });
+  }
+};
+
+// Actualizar perfil
+const updateProfile = async (req, res) => {
+  try {
+      const userId = req.user.id;
+      const updatedProfile = await userService.updateUserProfile(userId, req.body);
+      res.status(200).json({
+          success: true,
+          message: "Perfil Actualizado",
+          profile: updatedProfile
+      });
+  } catch (error) {
+      res.status(400).json({
+          success: false,
+          message: error.message
+      });
+  }
+};
+
 module.exports = {
   getAllUsers,
   getOneUser,
   createUser,
   updateUser,
   deleteUser,
+  getProfile,
+  updateProfile
 };

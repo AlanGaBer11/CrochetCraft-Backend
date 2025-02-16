@@ -20,7 +20,8 @@ const OrderSchema = new mongoose.Schema(
           required: true,
         },
         cantidad: { type: Number, required: true },
-        precio: { type: Number, required: true }, // Precio del producto en el momento de la compra
+        precio: { type: Number, required: true }, // Precio unitario
+        subtotal: { type: Number, required: true } // Precio * cantidad
       },
     ],
     precioTotal: { type: Number, required: true },

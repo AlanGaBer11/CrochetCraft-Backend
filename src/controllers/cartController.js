@@ -21,17 +21,37 @@ const getCart = async (req, res) => {
 // AGREGAR PRODUCTO AL CARRITO
 const addToCart = async (req, res) => {
   try {
-    const { productId, cantidad } = req.body;
+    const { items } = req.body;
     const userId = req.user.id;
 
-    if (!productId || !cantidad) {
-      return res.status(400).json({success: false, message: "Producto Y Cantidad Son Obligatorios",});
+    if (!items || !Array.isArray(items)) {
+      return res.status(400).json({
+        success: false, 
+        message: "Se requiere un array de productos"
+      });
     }
 
-    const cart = await cartProcess.addToCart(userId, productId, cantidad);
-    res.status(200).json({ success: true, message: "Producto Agregado Al Carrito", cart });
+    // Validar cada item
+    for (const item of items) {
+      if (!item.productId || !item.cantidad) {
+        return res.status(400).json({
+          success: false,
+          message: "Cada item debe tener productId y cantidad"
+        });
+      }
+    }
+
+    const cart = await cartProcess.addToCart(userId, items);
+    res.status(200).json({ 
+      success: true, 
+      message: "Productos Agregados Al Carrito", 
+      cart 
+    });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Error Interno Del Servidor" });
+    res.status(500).json({ 
+      success: false, 
+      message: "Error Interno Del Servidor" 
+    });
   }
 };
 

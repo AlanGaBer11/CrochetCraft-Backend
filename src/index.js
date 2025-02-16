@@ -17,7 +17,7 @@ const productRoutes = require('./routes/productRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
-
+const searchRoutes = require('./routes/searchRoutes');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -35,6 +35,8 @@ app.use('/api/product', productRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/order', orderRoutes);
 app.use('/api/review', reviewRoutes);
+app.use('/api/search', searchRoutes);
+
 app.listen(PORT, () => {
     console.log(`Escuchando en el puerto ${PORT}`);
 });

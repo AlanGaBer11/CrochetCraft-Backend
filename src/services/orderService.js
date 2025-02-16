@@ -1,4 +1,6 @@
 const orderModel = require("../models/orderModel");
+const cartModel = require("../models/cartModel");
+const productModel = require("../models/productModel");
 
 // OBTENER TODAS LAS ORDENES
 const getOrders = async () => {
@@ -14,25 +16,64 @@ const getOrderById = async (id) => {
     .populate("items.productId", "nombre precio");
 };
 
-// CREAR UNA ORDEN
-const createOrder = async (userId, productId, cantidad, precio, precioTotal, status, metodoPago) => {
-  let order = await orderModel.findOne({ userId });
+// CREAR UNA ORDEN A PARTIR DEL CARRITO
+const createOrder = async (userId, metodoPago) => {
+    try {
+        // 1. Obtener el carrito del usuario
+        const cart = await cartModel.findOne({ userId }).populate('items.productId');
+        if (!cart || cart.items.length === 0) {
+            throw new Error("Carrito vacío o no encontrado");
+        }
 
-  if (!order) {
-    order = new orderModel({ userId, items: [{ productId, cantidad, precio}], precioTotal, status, metodoPago });
-  } else {
-    const existingItem = order.items.find(
-      (item) => item.productId.toString() === productId
-    );
+        // 2. Calcular el precio total y preparar los items
+        let precioTotal = 0;
+        const orderItems = [];
 
-    if (existingItem) {
-      existingItem.cantidad += cantidad;
-    } else {
-      order.items.push({ productId, cantidad, precio });
+        for (const item of cart.items) {
+            const product = await productModel.findById(item.productId);
+            
+            // Verificar stock
+            if (product.stock < item.cantidad) {
+                throw new Error(`Stock insuficiente para ${product.nombre}`);
+            }
+
+            // Actualizar stock
+            await productModel.findByIdAndUpdate(
+                item.productId,
+                { $inc: { stock: -item.cantidad } }
+            );
+
+            // Calcular subtotal para este item
+            const precioUnitario = product.precio;
+            const subtotal = precioUnitario * item.cantidad;
+            precioTotal += subtotal;
+
+            orderItems.push({
+                productId: item.productId._id,
+                cantidad: item.cantidad,
+                precio: precioUnitario,
+                subtotal: subtotal
+            });
+        }
+
+        // 3. Crear la orden
+        const newOrder = new orderModel({
+            userId,
+            items: orderItems,
+            precioTotal,
+            status: 'Pendiente',
+            metodoPago
+        });
+
+        await newOrder.save();
+
+        // 4. Vaciar el carrito
+        await cartModel.findOneAndDelete({ userId });
+
+        return newOrder;
+    } catch (error) {
+        throw new Error(`Error al crear la orden: ${error.message}`);
     }
-  }
-  await order.save();
-  return order;
 };
 
 // ACTUALIZAR EL ESTADO DE UNA ORDEN

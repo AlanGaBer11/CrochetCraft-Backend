@@ -32,19 +32,29 @@ const getOrderById = async (req, res) => {
 // CREAR ORDEN
 const createOrder = async (req, res) => {
     try {
-        const { productId, cantidad, precio, precioTotal, status, metodoPago} = req.body;
-        const userId = req.user.id; 
+        const { metodoPago } = req.body;
+        const userId = req.user.id;
 
-        // Validar datos obligatorios
-        if (!productId || !cantidad || !precio || !precioTotal || !status || !metodoPago) {
-            return res.status(400).json({ success: false, message: "Todos Los Campos Son Obligatorios" });
+        if (!metodoPago) {
+            return res.status(400).json({ 
+                success: false, 
+                message: "El método de pago es obligatorio" 
+            });
         }
-        // Crear orden
-        const order = await orderProcess.createOrder( userId, productId, cantidad, precio, precioTotal, status, metodoPago);
-        res.status(201).json({ success: true, message: "Orden Creada", order });
+
+        const order = await orderProcess.createOrder(userId, metodoPago);
+        
+        res.status(201).json({ 
+            success: true, 
+            message: "Orden creada exitosamente", 
+            order 
+        });
     } catch (error) {
-        console.error("Error Al Crear La Orden:", error);
-        res.status(500).json({ success: false, message: "Error Interno Del Servidor" });
+        console.error("Error al crear la orden:", error);
+        res.status(500).json({ 
+            success: false, 
+            message: error.message || "Error interno del servidor" 
+        });
     }
 };
 

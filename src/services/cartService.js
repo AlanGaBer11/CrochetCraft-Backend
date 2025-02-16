@@ -6,22 +6,35 @@ const getCart = async (userId) => {
 };
 
 // AGREGAR PRODUCTOS AL CARRITO
-const addToCart = async (userId, productId, cantidad) => {
+const addToCart = async (userId, items) => {
   let cart = await cartModel.findOne({ userId });
 
   if (!cart) {
-    cart = new cartModel({ userId, items: [{ productId, cantidad }] });
+    cart = new cartModel({ 
+      userId, 
+      items: items.map(item => ({
+        productId: item.productId,
+        cantidad: item.cantidad
+      }))
+    });
   } else {
-    const existingItem = cart.items.find(
-      (item) => item.productId.toString() === productId
-    );
+    // Procesar cada item del array
+    for (const item of items) {
+      const existingItem = cart.items.find(
+        cartItem => cartItem.productId.toString() === item.productId
+      );
 
-    if (existingItem) {
-      existingItem.cantidad += cantidad;
-    } else {
-      cart.items.push({ productId, cantidad });
+      if (existingItem) {
+        existingItem.cantidad += item.cantidad;
+      } else {
+        cart.items.push({
+          productId: item.productId,
+          cantidad: item.cantidad
+        });
+      }
     }
   }
+  
   await cart.save();
   return cart;
 };
