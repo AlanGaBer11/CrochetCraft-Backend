@@ -15,6 +15,7 @@ Instalar las siguientes dependencias para su funcionamiento:
 * `npm install dotenv --save` - Manejo de variables de entorno
 * `npm install bcryptjs` - Encriptación de contraseñas
 * `npm install jsonwebtoken` - Generación de tokens JWT
+* `npm install express-rate-limit`
 
 ## Endpoints
 ### User
