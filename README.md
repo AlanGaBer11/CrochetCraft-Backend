@@ -92,3 +92,4 @@ Instalar las siguientes dependencias para su funcionamiento:
 - Se usa **JWT (jsonwebtoken)** para autenticar usuarios.
 - Se usa **helmet** para proteger la app de ataques XSS.
 - Se usa **express-rate-limit** para limitar el número de peticiones a la API.
+- Se usa **winston** para registrar errores sin exponer información sensible.
