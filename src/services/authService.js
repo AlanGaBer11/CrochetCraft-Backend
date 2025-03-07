@@ -113,13 +113,21 @@ const requestPasswordReset = async (email) => {
     await user.save()
 
     // Enviar correo con el enlace
-    const resetLink = `http://localhost:3000/reset-password/${resetToken}`
+    const resetLink = `http://localhost:3000/api/auth/reset-password/${resetToken}`
+    
+    // PRUEBAS
+/*     console.log('Reset Token:', resetToken);
+    console.log('Reset Link:', resetLink); */
+
     const subject = 'Restablecimiento de Contraseña'
     const text = `Haz clic en el siguiente enlace para restablecer tu contraseña: ${resetLink}`
     const html = `<h1>Restablecer Contraseña</h1><p><a href="${resetLink}">Haz clic aquí</a> para restablecer tu contraseña. El enlace expira en 1 hora.</p>`
 
     await sendEmail(user.email, subject, text, html)
-    return { success: true, message: 'Correo De Restablecimiento Enviado' }
+    return { 
+      success: true, 
+      message: 'Correo De Restablecimiento Enviado'
+    }
   } catch (error) {
     throw new Error(error.message)
   }
@@ -138,6 +146,12 @@ const resetPassword = async (token, newPassword) => {
     // Hashear la nueva contraseña
     const salt = await bcrypt.genSalt(10)
     user.password = await bcrypt.hash(newPassword, salt)
+
+
+    const subject = 'Contraseña Restablecida Con Éxito',
+    text = 'Tu contraseña ha sido restablecida con éxito',
+    html = '<h1>Contraseña Restablecida</h1><p>Tu contraseña ha sido restablecida con éxito</p>'
+  await sendEmail(user.email, subject, text, html)
 
     // Limpiar token de restablecimiento
     user.resetPasswordToken = null

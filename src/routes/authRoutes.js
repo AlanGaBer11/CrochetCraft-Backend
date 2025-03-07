@@ -10,6 +10,6 @@ router
   .post('/send-verification-code', authController.sendVerificationCode)
   .post('/verify-code', authController.verifyCode)
   .post('/request-password-reset', authController.requestPasswordReset)
-  .post('/reset-password', authController.resetPassword)
+  .post('/reset-password/:token', authController.resetPassword)
 
 module.exports = router

@@ -65,7 +65,7 @@ const sendVerificationCode = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: 'Código de verificación enviado exitosamente'
+      message: 'Código De Verificación Enviado Exitosamente'
     })
   } catch (error) {
     next(error)
@@ -106,7 +106,16 @@ const requestPasswordReset = async (req, res) => {
 // RESTABLECER CONTRASEÑA
 const resetPassword = async (req, res) => {
   try {
-    const { token, newPassword } = req.body
+    const { token } = req.params
+    const { newPassword } = req.body // Solo obtener newPassword del body
+    
+    if (!newPassword) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'La nueva contraseña es requerida' 
+      })
+    }
+
     const response = await authProcess.resetPassword(token, newPassword)
     res.status(200).json(response)
   } catch (error) {
