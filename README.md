@@ -25,6 +25,7 @@ Instalar las siguientes dependencias para su funcionamiento:
 - `npm install winston` - Registra errores sin exponer información sensible
 - `npm install audit` - Identifica vulberabilidades
 - `npm install standard --save-dev` - Asegura la consistncia y calidad del código
+- `npm install nodemailer` - Enviar correos electrónicos
 
 ## Endpoints
 

@@ -1,16 +1,16 @@
-const cartModel = require('../models/cartModel')
+const CartModel = require('../models/cartModel')
 
 // OBTENER CARRITO DE UN USUARIO
 const getCart = async (userId) => {
-  return await cartModel.findOne({ userId }).populate('items.productId')
+  return await CartModel.findOne({ userId }).populate('items.productId')
 }
 
 // AGREGAR PRODUCTOS AL CARRITO
 const addToCart = async (userId, items) => {
-  let cart = await cartModel.findOne({ userId })
+  let cart = await CartModel.findOne({ userId })
 
   if (!cart) {
-    cart = new cartModel({
+    cart = new CartModel({
       userId,
       items: items.map(item => ({
         productId: item.productId,
@@ -43,7 +43,7 @@ const addToCart = async (userId, items) => {
 
 // ELIMINAR PRODUCTO DEL CARRITO
 const removeFromCart = async (userId, productId) => {
-  const cart = await cartModel.findOne({ userId })
+  const cart = await CartModel.findOne({ userId })
 
   if (!cart) throw new Error('El Carrito No Existe')
 
@@ -56,7 +56,7 @@ const removeFromCart = async (userId, productId) => {
 
 // VACIAR CARRITO
 const clearCart = async (userId) => {
-  const result = await cartModel.findOneAndDelete({ userId })
+  const result = await CartModel.findOneAndDelete({ userId })
   if (!result) {
     throw new Error('El Carrito No Existe')
   }

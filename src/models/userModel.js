@@ -30,11 +30,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, 'La contraseña es obligatoria']
     },
-/*     rol: {
-      type: String,
-      required: true,
-      enum: roles
-    } */
+    resetPasswordToken: { type: String },
+    resetPasswordExpires: { type: Date },
+    verificationCode: { type: String }, // Código de verificación
+    verified: { type: Boolean, default: false } // Estado de verificación
   },
   { timestamps: true }
 )

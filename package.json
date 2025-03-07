@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./src/idnex.js",
+    "start": "node ./src/index.js",
     "dev": "nodemon ./src/index.js",
     "lint": "eslint .",
-    "test": "standard && node my-tests.js"
+    "test": "standard && node my-tests.js",
+    "format": "standard --fix"
   },
   "keywords": [],
   "author": "",
@@ -27,9 +28,10 @@
     "express-rate-limit": "^7.5.0",
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose-unique-validator": "^5.0.0"
+    "mongoose-unique-validator": "^5.0.0",
+    "nodemailer": "^6.10.0"
   },
-  "eslintConfig": {
-    "extends": "./node_modules/standard/eslintrc.json"
-  }
+"eslintConfig": {
+  "extends": "./node_modules/standard/eslintrc.json"
+}
 }

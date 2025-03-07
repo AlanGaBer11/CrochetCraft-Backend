@@ -1,25 +1,25 @@
-const reviewModel = require('../models/reviewModel')
+const ReviewModel = require('../models/reviewModel')
 
 // OBTENER TODAS LAS REVIEWS
 const getReviews = async () => {
-  return await reviewModel.find()
+  return await ReviewModel.find()
     .populate('userId', 'nombre')
     .populate('items.productId', 'nombre categoria')
 }
 
 // OBTENER UNA REVIEW POR ID
 const getReviewById = async (id) => {
-  return await reviewModel.findById(id)
+  return await ReviewModel.findById(id)
     .populate('userId', 'nombre')
     .populate('items.productId', 'nombre categoria')
 }
 
 // CREAR UNA REVIEW
 const createReview = async (userId, productId, nombre, categoria, calificacion, comentario) => {
-  let review = await reviewModel.findOne({ userId })
+  let review = await ReviewModel.findOne({ userId })
 
   if (!review) {
-    review = new reviewModel({
+    review = new ReviewModel({
       userId,
       items: [{ productId, nombre, categoria, calificacion, comentario }]
     })
@@ -42,7 +42,7 @@ const createReview = async (userId, productId, nombre, categoria, calificacion, 
 
 // ACTUALIZAR UNA REVIEW (actualiza calificación y comentario de un producto en una review)
 const updateReview = async (reviewId, productId, calificacion, comentario) => {
-  const review = await reviewModel.findById(reviewId)
+  const review = await ReviewModel.findById(reviewId)
   if (!review) return null
 
   const item = review.items.find(item => item.productId.toString() === productId)
@@ -57,7 +57,7 @@ const updateReview = async (reviewId, productId, calificacion, comentario) => {
 
 // ELIMINAR UNA REVIEW
 const deleteReview = async (id) => {
-  return await reviewModel.findByIdAndDelete(id)
+  return await ReviewModel.findByIdAndDelete(id)
 }
 
 module.exports = {

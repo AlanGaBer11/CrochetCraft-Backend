@@ -8,6 +8,6 @@ router
   .get('/:id', userController.getOneUser)
   .post('/', userController.createUser)
   .patch('/:id', authenticateUser, userController.updateUser)
-  .delete('/:id', authenticateUser, userController.deleteUser)
+  .delete('/:id', userController.deleteUser)
 
 module.exports = router

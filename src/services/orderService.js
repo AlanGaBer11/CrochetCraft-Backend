@@ -1,17 +1,17 @@
-const orderModel = require('../models/orderModel')
-const cartModel = require('../models/cartModel')
+const OrderModel = require('../models/orderModel')
+const CartModel = require('../models/cartModel')
 const productModel = require('../models/productModel')
 
 // OBTENER TODAS LAS ORDENES
 const getOrders = async () => {
-  return await orderModel.find()
+  return await OrderModel.find()
     .populate('userId', 'nombre email')
     .populate('items.productId', 'nombre precio')
 }
 
 // OBTENER UNA ORDEN POR ID
 const getOrderById = async (id) => {
-  return await orderModel.findById(id)
+  return await OrderModel.findById(id)
     .populate('userId', 'nombre email')
     .populate('items.productId', 'nombre precio')
 }
@@ -20,7 +20,7 @@ const getOrderById = async (id) => {
 const createOrder = async (userId, metodoPago) => {
   try {
     // 1. Obtener el carrito del usuario
-    const cart = await cartModel.findOne({ userId }).populate('items.productId')
+    const cart = await CartModel.findOne({ userId }).populate('items.productId')
     if (!cart || cart.items.length === 0) {
       throw new Error('Carrito vacío o no encontrado')
     }
@@ -57,7 +57,7 @@ const createOrder = async (userId, metodoPago) => {
     }
 
     // 3. Crear la orden
-    const newOrder = new orderModel({
+    const newOrder = new OrderModel({
       userId,
       items: orderItems,
       precioTotal,
@@ -68,7 +68,7 @@ const createOrder = async (userId, metodoPago) => {
     await newOrder.save()
 
     // 4. Vaciar el carrito
-    await cartModel.findOneAndDelete({ userId })
+    await CartModel.findOneAndDelete({ userId })
 
     return newOrder
   } catch (error) {
@@ -78,12 +78,12 @@ const createOrder = async (userId, metodoPago) => {
 
 // ACTUALIZAR EL ESTADO DE UNA ORDEN
 const updateOrderStatus = async (id, status) => {
-  return await orderModel.findByIdAndUpdate(id, { status }, { new: true })
+  return await OrderModel.findByIdAndUpdate(id, { status }, { new: true })
 }
 
 // ELIMINAR UNA ORDEN
 const deleteOrder = async (id) => {
-  return await orderModel.findByIdAndDelete(id)
+  return await OrderModel.findByIdAndDelete(id)
 }
 
 module.exports = {
