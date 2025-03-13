@@ -29,22 +29,14 @@ const PORT = process.env.PORT || 3000
 // LÍMITE DE PETICIONES
 const limiter = rateLimit({
   windowMs: 60 * 1000, // 1 MINUTO
-  max: 100, // 100 PETICIONES POR MINUTO,
+  limit: 100, // 100 PETICIONES POR MINUTO,
   message: '¡Demasiadas peticiones!',
   standardHeaders: true,
   handler: (req, res) => {
-    console.log(`IP ${req.ip}  Bloqueada, alcanzo el límite de peticiones alcanzado`)
+    console.log(`IP ${req.ip}  Bloqueada, alcanzo el límite de peticiones`)
     res.status(409).json({ error: "¡Demasiaas peticiones!" })
   }
 })
-
-/* const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
-  standardHeaders: 'draft-8', // draft-6: `RateLimit-*` headers; draft-7 & draft-8: combined `RateLimit` header
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
-  // store: ... , // Redis, Memcached, etc. See below.
-}) */
 
 app.use(limiter)
 app.use(cors())
