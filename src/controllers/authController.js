@@ -6,20 +6,20 @@ const jwt = require('jsonwebtoken')
 // REGISTER USER CON CONTRASEÑA HASHEADA
 const registerUser = async (req, res) => {
   try {
-    const { nombre, email, password } = req.body
+    const { nombre, email, password, rol } = req.body
 
     // Validar datos obligatorios
     if (!nombre || !email || !password) {
       return res.status(400).json({ success: false, message: 'Todos Los Campos Son Obligatorios' })
     }
 
-    // Registrar usuario
-    const user = await authProcess.registerUser(nombre, email, password)
+    // Registrar usuario con rol (si no se proporciona, será CLIENTE por defecto)
+    const user = await authProcess.registerUser(nombre, email, password, rol)
 
     res.status(201).json({ success: true, message: 'Usuario Registrado', user })
   } catch (error) {
     console.error('Error Al Registrar El Usuario:', error)
-    res.status(400).json({ success: false, message: 'Error Interno Del Servidor' })
+    res.status(500).json({ success: false, message: error.message || 'Error Interno Del Servidor' })
   }
 }
 
@@ -37,7 +37,7 @@ const loginUser = async (req, res) => {
     const user = await authProcess.loginUser(email, password)
 
     // Generar token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN })
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' })
 
     res.status(200).json({ success: true, message: 'Inicio De Sesión Exitoso', token, user })
   } catch (error) {
@@ -108,11 +108,11 @@ const resetPassword = async (req, res) => {
   try {
     const { token } = req.params
     const { newPassword } = req.body // Solo obtener newPassword del body
-    
+
     if (!newPassword) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'La nueva contraseña es requerida' 
+      return res.status(400).json({
+        success: false,
+        message: 'La nueva contraseña es requerida'
       })
     }
 

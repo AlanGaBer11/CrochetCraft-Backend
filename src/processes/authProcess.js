@@ -3,8 +3,8 @@ const authService = require('../services/authService')
 
 /* AUTHENTICATION */
 // REGISTER USER CON CONTRASEÑA HASHEADA
-const registerUser = async (nombre, email, password) => {
-  const user = await authService.registerUser(nombre, email, password)
+const registerUser = async (nombre, email, password, rol) => {
+  const user = await authService.registerUser(nombre, email, password, rol)
   return user
 }
 

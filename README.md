@@ -11,21 +11,21 @@ Antes de comenzar, asegúrate de tener instalado:
 
 Instalar las siguientes dependencias para su funcionamiento:
 
-- `npm install express` - Framework web para Node.js (GET, POST, DELETE, PUT, PATCH)
-- `npm install cors` - Permite solicitudes desde distintos dispositivos
-- `npm install nodemon -D` - Recarga automáticamente el servidor en desarrollo
-- `npm install mongoose` - Para hacer la conexión a la base de datos
-- `npm install mongoose-unique-validator --legacy-peer-deps` - Plugin para Mongoose que mejora los mensajes de error en campos unique.
-- `npm install body-parser` - Convierte datos a JSON
-- `npm install dotenv --save` - Manejo de variables de entorno
-- `npm install bcryptjs` - Encriptación de contraseñas
-- `npm install jsonwebtoken` - Generación de tokens JWT
-- `npm install express-rate-limit` - Limita el número de peticiones a la API
-- `npm install helmet` - Protege la APP de vulnerabilidades de XSS
-- `npm install winston` - Registra errores sin exponer información sensible
-- `npm install audit` - Identifica vulberabilidades
-- `npm install standard --save-dev` - Asegura la consistncia y calidad del código
-- `npm install nodemailer` - Enviar correos electrónicos
+- `npm i express` - Framework web para Node.js (GET, POST, DELETE, PUT, PATCH)
+- `npm i cors` - Permite solicitudes desde distintos dispositivos
+- `npm i nodemon -D` - Recarga automáticamente el servidor en desarrollo
+- `npm i mongoose` - Para hacer la conexión a la base de datos
+- `npm i mongoose-unique-validator --legacy-peer-deps` - Plugin para Mongoose que mejora los mensajes de error en campos unique.
+- `npm i body-parser` - Convierte datos a JSON
+- `npm i dotenv --save` - Manejo de variables de entorno
+- `npm i bcryptjs` - Encriptación de contraseñas
+- `npm i jsonwebtoken` - Generación de tokens JWT
+- `npm i express-validator` - Validaciones de datos
+- `npm i express-rate-limit` - Limita el número de peticiones a la API
+- `npm i helmet` - Protege la APP de vulnerabilidades de XSS
+- `npm i audit` - Identifica vulberabilidades
+- `npm i standard --save-dev` - Asegura la consistncia y calidad del código
+- `npm i nodemailer` - Enviar correos electrónicos
 
 ## Endpoints
 
@@ -41,10 +41,14 @@ Instalar las siguientes dependencias para su funcionamiento:
 
 ### Auth
 
-| Método | Endpoint             | Descripción         |
-| ------ | -------------------- | ------------------- |
-| POST   | `/api/auth/register` | Registra un usuario |
-| POST   | `api/auth/login`     | Logea un usuario    |
+| Método | Endpoint                          | Descripción                            |
+| ------ | --------------------------------- | -------------------------------------- |
+| POST   | `/api/auth/register`              | Registra un usuario                    |
+| POST   | `api/auth/login`                  | Logea un usuario                       |
+| POST   | `api/auth/send-verification-code` | Envia un código de verificación        |
+| POST   | `api/auth/verify-code`            | Verifica el código de verificación     |
+| POST   | `api/auth/request-password-reset` | Envia enlace para recuperar contraseña |
+| POST   | `api/auth/reset-password/:token`  | Recuperar contraseña                   |
 
 ### Product
 
@@ -93,4 +97,3 @@ Instalar las siguientes dependencias para su funcionamiento:
 - Se usa **JWT (jsonwebtoken)** para autenticar usuarios.
 - Se usa **helmet** para proteger la app de ataques XSS.
 - Se usa **express-rate-limit** para limitar el número de peticiones a la API.
-- Se usa **winston** para registrar errores sin exponer información sensible.

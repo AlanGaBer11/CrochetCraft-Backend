@@ -7,10 +7,10 @@ const { sendEmail } = require('./emailService')
 
 /* AUTHENTICATION */
 // REGISTER USER
-const registerUser = async (nombre, email, password) => {
+const registerUser = async (nombre, email, password, rol) => {
   try {
     // VERIFICAR SI EL EMAIL YA EXISTE
-    const existingUser = await UserModel.findOne({ email })
+    const existingUser = await UserModel.findOne({ email: email.trim().toLowerCase() })
     if (existingUser) {
       throw new Error('El Email Ya Está Registrado')
     }
@@ -19,8 +19,13 @@ const registerUser = async (nombre, email, password) => {
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
 
-    // CREAR NUEVO USUARIO
-    const newUser = new UserModel({ nombre, email, password: hashedPassword })
+    // CREAR NUEVO USUARIO CON ROL
+    const newUser = new UserModel({
+      nombre,
+      email,
+      password: hashedPassword,
+      rol
+    })
 
     // Enviar Correo de Bienvenida
     const subject = 'Bienvenido CrochetCraft'
@@ -39,7 +44,7 @@ const registerUser = async (nombre, email, password) => {
 const loginUser = async (email, password) => {
   try {
     // VERIFICAR SI EL USUARIO EXISTE
-    const user = await UserModel.findOne({ email })
+    const user = await UserModel.findOne({ email: email.trim().toLowerCase() })
     if (!user) {
       throw new Error('El Usuario No Existe')
     }
@@ -58,7 +63,7 @@ const loginUser = async (email, password) => {
 
 // ENVIAR CÓDIGO DE VERIFICACIÓN
 const sendVerificationCode = async (email) => {
-  const user = await UserModel.findOne({ email })
+  const user = await UserModel.findOne({ email: email.trim().toLowerCase() })
   if (!user) {
     throw new Error('Usuario No Encontrado')
   }
@@ -78,7 +83,7 @@ const sendVerificationCode = async (email) => {
 
 // VERIFICAR CÓDIGO
 const verifyCode = async (email, code) => {
-  const user = await UserModel.findOne({ email })
+  const user = await UserModel.findOne({ email: email.trim().toLowerCase() })
   if (!user) {
     throw new Error('Usuario No Encontrado')
   }
@@ -87,9 +92,9 @@ const verifyCode = async (email, code) => {
     throw new Error('Código Inválido')
   }
 
-  const subject = 'Cuenta Verificada Exitosamente',
-    text = 'Tu cuenta ha sido verificada con éxito',
-    html = '<h1>Cuenta Verificada</h1><p>Tu cuenta ha sido verificada con éxito</p>'
+  const subject = 'Cuenta Verificada Exitosamente'
+  const text = 'Tu cuenta ha sido verificada con éxito'
+  const html = '<h1>Cuenta Verificada</h1><p>Tu cuenta ha sido verificada con éxito</p>'
   await sendEmail(user.email, subject, text, html)
 
   user.verified = true
@@ -102,7 +107,7 @@ const verifyCode = async (email, code) => {
 // SOLICITAR RESTABLECIMIENTO DE CONTRASEÑA
 const requestPasswordReset = async (email) => {
   try {
-    const user = await UserModel.findOne({ email })
+    const user = await UserModel.findOne({ email: email.trim().toLowerCase() })
     if (!user) throw new Error('Usuario no encontrado')
 
     // Generar token de restablecimiento (expira en 1 hora)
@@ -114,9 +119,9 @@ const requestPasswordReset = async (email) => {
 
     // Enviar correo con el enlace
     const resetLink = `http://localhost:3000/api/auth/reset-password/${resetToken}`
-    
+
     // PRUEBAS
-/*     console.log('Reset Token:', resetToken);
+    /*     console.log('Reset Token:', resetToken);
     console.log('Reset Link:', resetLink); */
 
     const subject = 'Restablecimiento de Contraseña'
@@ -124,8 +129,8 @@ const requestPasswordReset = async (email) => {
     const html = `<h1>Restablecer Contraseña</h1><p><a href="${resetLink}">Haz clic aquí</a> para restablecer tu contraseña. El enlace expira en 1 hora.</p>`
 
     await sendEmail(user.email, subject, text, html)
-    return { 
-      success: true, 
+    return {
+      success: true,
       message: 'Correo De Restablecimiento Enviado'
     }
   } catch (error) {
@@ -147,11 +152,10 @@ const resetPassword = async (token, newPassword) => {
     const salt = await bcrypt.genSalt(10)
     user.password = await bcrypt.hash(newPassword, salt)
 
-
-    const subject = 'Contraseña Restablecida Con Éxito',
-    text = 'Tu contraseña ha sido restablecida con éxito',
-    html = '<h1>Contraseña Restablecida</h1><p>Tu contraseña ha sido restablecida con éxito</p>'
-  await sendEmail(user.email, subject, text, html)
+    const subject = 'Contraseña Restablecida Con Éxito'
+    const text = 'Tu contraseña ha sido restablecida con éxito'
+    const html = '<h1>Contraseña Restablecida</h1><p>Tu contraseña ha sido restablecida con éxito</p>'
+    await sendEmail(user.email, subject, text, html)
 
     // Limpiar token de restablecimiento
     user.resetPasswordToken = null

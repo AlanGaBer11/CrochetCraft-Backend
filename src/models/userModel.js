@@ -2,16 +2,15 @@
 const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 
-/* const roles = {
-  values: ['ADMIN', 'USER'],
+const roles = {
+  values: ['ADMIN', 'CLIENTE'],
   message: '{VALUE} no es un rol válido'
-} */
+}
 
 const userSchema = new mongoose.Schema(
   {
     nombre: {
       type: String,
-
       required: [true, 'El nombre es necesario'],
       trim: true // ELIMINA ESPACIOS SI ES NECESARIO
     },
@@ -29,6 +28,12 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: [true, 'La contraseña es obligatoria']
+    },
+    rol: {
+      type: String,
+      enum: roles,
+      default: 'CLIENTE',
+      required: true
     },
     resetPasswordToken: { type: String },
     resetPasswordExpires: { type: Date },
