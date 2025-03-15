@@ -106,8 +106,7 @@ const requestPasswordReset = async (req, res) => {
 // RESTABLECER CONTRASEÑA
 const resetPassword = async (req, res) => {
   try {
-    const { token } = req.params
-    const { newPassword } = req.body // Solo obtener newPassword del body
+    const { token, newPassword } = req.body // Solo obtener newPassword del body
 
     if (!newPassword) {
       return res.status(400).json({
