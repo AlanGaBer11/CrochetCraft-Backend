@@ -8,14 +8,6 @@ const helmet = require('helmet')
 const connection = require('./config/dbConnection')
 connection()
 
-// IMPORTAR RUTAS
-const userRoutes = require('./routes/userRoutes')
-const authRoutes = require('./routes/authRoutes')
-const productRoutes = require('./routes/productRoutes')
-const cartRoutes = require('./routes/cartRoutes')
-const orderRoutes = require('./routes/orderRoutes')
-const reviewRoutes = require('./routes/reviewRoutes')
-const searchRoutes = require('./routes/searchRoutes')
 
 /* AGREGAR CORS PARA LAS COOKIES */
 
@@ -46,6 +38,14 @@ app.use(bodyParser.json())
 app.get('/', (req, res) => {
   res.send('Bienvenido a CrochetCraft')
 })
+// IMPORTAR RUTAS
+const userRoutes = require('./routes/userRoutes')
+const authRoutes = require('./routes/authRoutes')
+const productRoutes = require('./routes/productRoutes')
+const cartRoutes = require('./routes/cartRoutes')
+const orderRoutes = require('./routes/orderRoutes')
+const reviewRoutes = require('./routes/reviewRoutes')
+const searchRoutes = require('./routes/searchRoutes')
 
 // RUTAS DE APIS
 app.use('/api/user', userRoutes)
