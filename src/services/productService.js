@@ -10,6 +10,11 @@ const getOneProduct = async (id) => {
   return await productModel.findById(id)
 }
 
+// GET PRODUCT BY CATEGORY
+const getProductsByCategory = async (categoria) => {
+  return await productModel.find({ categoria })
+}
+
 // CREATE PRODUCT
 const createProduct = async (nombre, descripcion, precio, stock, categoria, urlImagenes) => {
   // VERIFICAR SI EL PRODUCTO YA EXISTE
@@ -36,6 +41,7 @@ const deleteProduct = async (id) => {
 module.exports = {
   getAllProducts,
   getOneProduct,
+  getProductsByCategory,
   createProduct,
   updateProduct,
   deleteProduct

@@ -18,7 +18,7 @@ Instalar las siguientes dependencias para su funcionamiento:
 - `npm i mongoose-unique-validator --legacy-peer-deps` - Plugin para Mongoose que mejora los mensajes de error en campos unique.
 - `npm i body-parser` - Convierte datos a JSON
 - `npm i dotenv --save` - Manejo de variables de entorno
-- `npm i bcryptjs` - Encriptación de contraseñas
+- `npm i bcryptjs` - Encriptación de datos
 - `npm i jsonwebtoken` - Generación de tokens JWT
 - `npm i express-validator` - Validaciones de datos
 - `npm i express-rate-limit` - Limita el número de peticiones a la API
@@ -29,15 +29,15 @@ Instalar las siguientes dependencias para su funcionamiento:
 
 ## Endpoints
 
-### User
+### User (ADMIN)
 
-| Método | Endpoint        | Descripción                |
-| ------ | --------------- | -------------------------- |
-| GET    | `/api/user`     | Obtiene todos los usuarios |
-| GET    | `/api/user/:id` | Obtiene un usuario por ID  |
-| POST   | `/api/user`     | Crea un nuevo usuario      |
-| PATCH  | `/api/user/:id` | Actualiza un usuario       |
-| DELETE | `/api/user/:id` | Elimina un usuario         |
+| Método | Endpoint               | Descripción                |
+| ------ | ---------------------- | -------------------------- |
+| GET    | `/api/getUsers`        | Obtiene todos los usuarios |
+| GET    | `/api/getUserById/:id` | Obtiene un usuario por ID  |
+| POST   | `/api/createUser`      | Crea un nuevo usuario      |
+| PATCH  | `/api/updateUser/:id`  | Actualiza un usuario       |
+| DELETE | `/api/deleteUser/:id`  | Elimina un usuario         |
 
 ### Auth
 
@@ -52,13 +52,14 @@ Instalar las siguientes dependencias para su funcionamiento:
 
 ### Product
 
-| Método | Endpoint           | Descripción                 |
-| ------ | ------------------ | --------------------------- |
-| GET    | `/api/product`     | Obtiene todos los productos |
-| GET    | `/api/product/:id` | Obtiene un producto por ID  |
-| POST   | `/api/product`     | Crea un nuevo producto      |
-| PATCH  | `/api/product/:id` | Actualiza un producto       |
-| DELETE | `/api/product/:id` | Elimina un producto         |
+| Método | Endpoint                                | Descripción                         |
+| ------ | --------------------------------------- | ----------------------------------- |
+| GET    | `/api/getProducts`                      | Obtiene todos los productos         |
+| GET    | `/api/getProductById/:id`               | Obtiene un producto por ID          |
+| GET    | `/api/getProductsByCategory/:categoria` | Obtiene los productos por categoría |
+| POST   | `/api/createProduct`                    | Crea un nuevo producto              |
+| PATCH  | `/api/updateProduct/:id`                | Actualiza un producto               |
+| DELETE | `/api/deleteProduct/:id`                | Elimina un producto                 |
 
 ### Cart
 
@@ -71,23 +72,23 @@ Instalar las siguientes dependencias para su funcionamiento:
 
 ### Order
 
-| Método | Endpoint         | Descripción               |
-| ------ | ---------------- | ------------------------- |
-| GET    | `/api/order`     | Obtiene todas las ordenes |
-| GET    | `/api/order/:id` | Obtiene una orden por ID  |
-| POST   | `/api/order`     | Crea una nueva orden      |
-| PATCH  | `/api/order/:id` | Actualiza una orden       |
-| DELETE | `/api/order/:id` | Elimina una orden         |
+| Método | Endpoint                | Descripción               |
+| ------ | ----------------------- | ------------------------- |
+| GET    | `/api/getOrders`        | Obtiene todas las ordenes |
+| GET    | `/api/getOrderById/:id` | Obtiene una orden por ID  |
+| POST   | `/api/createOrder`      | Crea una nueva orden      |
+| PATCH  | `/api/updtaeOrder/:id`  | Actualiza una orden       |
+| DELETE | `/api/deleteOrder/:id`  | Elimina una orden         |
 
 ### Review
 
-| Método | Endpoint          | Descripción               |
-| ------ | ----------------- | ------------------------- |
-| GET    | `/api/review`     | Obtiene todos las reseñas |
-| GET    | `/api/review/:id` | Obtiene una reseña por ID |
-| POST   | `/api/review`     | Crea una nueva reseña     |
-| PATCH  | `/api/review/:id` | Actualiza una reseña      |
-| DELETE | `/api/review/:id` | Elimina una reseña        |
+| Método | Endpoint                 | Descripción               |
+| ------ | ------------------------ | ------------------------- |
+| GET    | `/api/getReviews`        | Obtiene todos las reseñas |
+| GET    | `/api/getReviewById/:id` | Obtiene una reseña por ID |
+| POST   | `/api/createReview`      | Crea una nueva reseña     |
+| PATCH  | `/api/updateReview/:id`  | Actualiza una reseña      |
+| DELETE | `/api/deleteReview/:id`  | Elimina una reseña        |
 
 ### Search
 

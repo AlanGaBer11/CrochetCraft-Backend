@@ -8,6 +8,7 @@ const { checkRole } = require('../middlewares/rolMiddleware')
 router
   .get('/getProducts/', productController.getAllProducts)
   .get('/getProductById/:id', productController.getOneProduct)
+  .get('/getProductsByCategory/:categoria', productController.getProductsByCategory)
   .post('/createProduct/', authenticateUser, checkRole(['ADMIN']), validateProduct, productController.createProduct)
   .patch('/updateProduct/:id', authenticateUser, checkRole(['ADMIN']), productController.updateProduct)
   .delete('/deleteProduct/:id', authenticateUser, checkRole(['ADMIN']), productController.deleteProduct)
