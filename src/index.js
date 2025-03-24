@@ -11,6 +11,7 @@ connection()
 
 /* AGREGAR CORS PARA LAS COOKIES */
 
+
 // INICIALIZAR EXPRESS
 const app = express()
 
