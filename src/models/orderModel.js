@@ -5,6 +5,12 @@ const status = {
   message: '{VALUE} no es un estado válido'
 }
 
+const metodosPago = {
+  values: ['Tarjeta de Crédito', 'Tarjeta de Débito', 'Transferencia', 'Efectivo',],
+  message: '{VALUE} no es un método de pago válido'
+}
+
+
 const OrderSchema = new mongoose.Schema(
   {
     userId: {
@@ -30,7 +36,7 @@ const OrderSchema = new mongoose.Schema(
       enum: status,
       default: 'Pendiente'
     },
-    metodoPago: { type: String, required: true }
+    metodoPago: { type: String, required: true, enum: metodosPago }
   },
   { timestamps: true }
 )

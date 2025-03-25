@@ -42,6 +42,15 @@ const createOrder = async (req, res) => {
       })
     }
 
+    // Validar que el método de pago sea uno de los permitidos
+    const metodosPermitidos = ['Tarjeta de Crédito', 'Tarjeta de Débito', 'Transferencia', 'Efectivo']
+    if (!metodosPermitidos.includes(metodoPago)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Método de pago no válido. Opciones permitidas: Tarjeta de Crédito, Tarjeta de Débito, Transferencia, Efectivo'
+      })
+    }
+
     const order = await orderProcess.createOrder(userId, metodoPago)
 
     res.status(201).json({

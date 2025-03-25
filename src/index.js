@@ -5,8 +5,11 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const rateLimit = require('express-rate-limit')
 const helmet = require('helmet')
+const fs = require('fs')
+const https = require('https')
 const connection = require('./config/dbConnection')
 connection()
+
 // IMPORTAR RUTAS
 const userRoutes = require('./routes/userRoutes')
 const authRoutes = require('./routes/authRoutes')
@@ -51,6 +54,11 @@ app.use(cors(corsOptions))
 app.options('*', cors(corsOptions))
 app.use(bodyParser.json())
 
+const options = {
+  key: fs.readFileSync('key.pem'),
+  cert: fs.readFileSync('cert.pem')
+};
+
 // RUTA DE BIENVENIDA
 app.get('/', (req, res) => {
   res.send('Bienvenido a CrochetCraft')
@@ -66,9 +74,13 @@ app.use('/api/order', orderRoutes)
 app.use('/api/review', reviewRoutes)
 app.use('/api/search', searchRoutes)
 
-app.listen(PORT, () => {
+/* app.listen(PORT, () => {
   console.log(`Escuchando en el puerto http://localhost:${PORT}`)
-})
+}) */
+// SERVIDOR HTTPS
+https.createServer(options, app).listen(PORT, () => {
+  console.log(`Servidor HTTPS corriendo en https://localhost:${PORT}`);
+});
 
 // RUTAS QEU NO EXISTEN
 app.use((req, res, next) => {

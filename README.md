@@ -9,23 +9,26 @@ Antes de comenzar, asegúrate de tener instalado:
 
 ## Dependecias
 
-Instalar las siguientes dependencias para su funcionamiento:
+En la terminal de este proyecto hacer `npm instal` para instalar las dependencias del proyecto para así obtener su funcionamiento.
 
-- `npm i express` - Framework web para Node.js (GET, POST, DELETE, PUT, PATCH)
-- `npm i cors` - Permite solicitudes desde distintos dispositivos
-- `npm i nodemon -D` - Recarga automáticamente el servidor en desarrollo
-- `npm i mongoose` - Para hacer la conexión a la base de datos
-- `npm i mongoose-unique-validator --legacy-peer-deps` - Plugin para Mongoose que mejora los mensajes de error en campos unique.
-- `npm i body-parser` - Convierte datos a JSON
-- `npm i dotenv --save` - Manejo de variables de entorno
-- `npm i bcryptjs` - Encriptación de datos
-- `npm i jsonwebtoken` - Generación de tokens JWT
-- `npm i express-validator` - Validaciones de datos
-- `npm i express-rate-limit` - Limita el número de peticiones a la API
-- `npm i helmet` - Protege la APP de vulnerabilidades de XSS
-- `npm i audit` - Identifica vulberabilidades
-- `npm i standard --save-dev` - Asegura la consistncia y calidad del código
-- `npm i nodemailer` - Enviar correos electrónicos
+- `npm express` - Framework web para Node.js (GET, POST, DELETE, PUT, PATCH)
+- `npm cors` - Permite solicitudes desde distintos dispositivos
+- `npm nodemon -D` - Recarga automáticamente el servidor en desarrollo
+- `npm mongoose` - Para hacer la conexión a la base de datos
+- `npm mongoose-unique-validator --legacy-peer-deps` - Plugin para Mongoose que mejora los mensajes de error en campos unique.
+- `npm body-parser` - Convierte datos a JSON
+- `npm dotenv --save` - Manejo de variables de entorno
+- `npm bcryptjs` - Encriptación de contraseñas
+- `npm crypto-js` - Cifrado de datos sensibles
+- `npm jsonwebtoken` - Generación de tokens JWT
+- `npm express-validator` - Validaciones de datos
+- `npm express-rate-limit` - Limita el número de peticiones a la API
+- `npm helmet` - Protege la APP de vulnerabilidades de XSS
+- `npm audit` - Identifica vulberabilidades
+- `npm standard --save-dev` - Asegura la consistncia y calidad del código
+- `npm nodemailer` - Enviar correos electrónicos
+- `npm https` -
+- `npm fs` -
 
 ## Endpoints
 
@@ -95,6 +98,9 @@ Instalar las siguientes dependencias para su funcionamiento:
 ## Seguridad
 
 - Se usa **bcryptjs** para encriptar contraseñas.
+- se usa **crypto-js** para cifrar datos sensibles.
 - Se usa **JWT (jsonwebtoken)** para autenticar usuarios.
 - Se usa **helmet** para proteger la app de ataques XSS.
 - Se usa **express-rate-limit** para limitar el número de peticiones a la API.
+- se usa **https\*** para
+- se usa **fs** para

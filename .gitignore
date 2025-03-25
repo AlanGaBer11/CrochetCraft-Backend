@@ -3,3 +3,5 @@ node_modules
 .qodo
 dockerfile
 docker-compose.yml
+cert.pem
+key.pem
