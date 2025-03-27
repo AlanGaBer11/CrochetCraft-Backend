@@ -9,7 +9,7 @@ Antes de comenzar, asegúrate de tener instalado:
 
 ## Dependecias
 
-En la terminal de este proyecto hacer `npm instal` para instalar las dependencias del proyecto para así obtener su funcionamiento.
+En la terminal de este proyecto hacer `npm install` para instalar las dependencias del proyecto para así obtener su funcionamiento.
 
 - `npm express` - Framework web para Node.js (GET, POST, DELETE, PUT, PATCH)
 - `npm cors` - Permite solicitudes desde distintos dispositivos

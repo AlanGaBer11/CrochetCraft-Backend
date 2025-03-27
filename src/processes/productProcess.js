@@ -15,13 +15,13 @@ const getProductsByCategory = async (categoria) => {
   return products
 }
 
-const createProduct = async (nombre, descripcion, precio, stock, categoria, urlImagenes) => {
-  const product = await productService.createProduct(nombre, descripcion, precio, stock, categoria, urlImagenes)
+const createProduct = async (nombre, descripcion, precio, stock, categoria, urlImagen) => {
+  const product = await productService.createProduct(nombre, descripcion, precio, stock, categoria, urlImagen)
   return product
 }
 
-const updateProduct = async (id, nombre, descripcion, precio, stock, categoria, urlImagenes) => {
-  const product = await productService.updateProduct(id, nombre, descripcion, precio, stock, categoria, urlImagenes)
+const updateProduct = async (id, nombre, descripcion, precio, stock, categoria, urlImagen) => {
+  const product = await productService.updateProduct(id, nombre, descripcion, precio, stock, categoria, urlImagen)
   return product
 }
 

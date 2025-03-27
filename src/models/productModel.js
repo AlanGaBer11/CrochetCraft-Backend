@@ -29,7 +29,7 @@ const productSchema = new mongoose.Schema({
     required: [true, 'La categoría es necesaria'],
     enum: categorias
   },
-  urlImagenes: {
+  urlImagen: {
     type: String,
     required: [true, 'La imagen es necesaria']
   }

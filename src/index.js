@@ -1,4 +1,4 @@
-/* INDEX */
+// PROPIEDAD DE ALAN YAHIR GARCÍA BERNAL
 require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -21,9 +21,7 @@ const searchRoutes = require('./routes/searchRoutes')
 
 /* COOKIES */
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'production'
-    ? ['https://your-production-domain.com']
-    : ['http://localhost:4200', 'http://localhost:3000'],
+  origin: 'http://localhost:4200',
   credentials: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   allowedHeaders: 'Content-Type,Authorization',
@@ -49,11 +47,14 @@ const limiter = rateLimit({
   }
 })
 
-app.use(limiter)
+app.use(limiter) // APLICAR EL LÍMITE DE PETICIONES A TODAS LAS RUTAS
+
+// MIDDLEWARES
 app.use(cors(corsOptions))
 app.options('*', cors(corsOptions))
 app.use(bodyParser.json())
 
+// LEE LA CLAVE Y EL CERTIFICADO
 const options = {
   key: fs.readFileSync('key.pem'),
   cert: fs.readFileSync('cert.pem')
@@ -64,7 +65,6 @@ app.get('/', (req, res) => {
   res.send('Bienvenido a CrochetCraft')
 })
 
-
 // RUTAS DE APIS
 app.use('/api/user', userRoutes)
 app.use('/api/auth', authRoutes)
@@ -74,13 +74,14 @@ app.use('/api/order', orderRoutes)
 app.use('/api/review', reviewRoutes)
 app.use('/api/search', searchRoutes)
 
-/* app.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Escuchando en el puerto http://localhost:${PORT}`)
-}) */
+})
+
 // SERVIDOR HTTPS
-https.createServer(options, app).listen(PORT, () => {
+/* https.createServer(options, app).listen(PORT, () => {
   console.log(`Servidor HTTPS corriendo en https://localhost:${PORT}`);
-});
+}); */
 
 // RUTAS QEU NO EXISTEN
 app.use((req, res, next) => {
