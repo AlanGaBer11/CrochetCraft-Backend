@@ -15,6 +15,11 @@ const getReviewsByProductId = async (productId) => {
   return review
 }
 
+const getReviewsByProductName = async (nombreProducto) => {
+  const reviews = await reviewService.getReviewsByProductName(nombreProducto)
+  return reviews
+}
+
 const createReview = async (userId, nombre, calificacion, comentario) => {
   const newReview = await reviewService.createReview(userId, nombre, calificacion, comentario)
   return newReview
@@ -34,6 +39,7 @@ module.exports = {
   getReviews,
   getReviewById,
   getReviewsByProductId,
+  getReviewsByProductName,
   createReview,
   updateReview,
   deleteReview

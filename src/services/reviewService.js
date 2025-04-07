@@ -8,21 +8,37 @@ const getReviews = async () => {
     .populate('items.productId', 'nombre categoria')
 }
 
-// OBTENER UNA REVIEW POR ID DE USUARIO
+// OBTENER UNA REVIEW POR ID
 const getReviewById = async (id) => {
   return await ReviewModel.findById(id)
     .populate('userId', 'nombre')
     .populate('items.productId', 'nombre categoria')
 }
 
-// OBTENER REVIEWS POR PRODUCTO
+// OBTENER REVIEWS POR NOMBRE PRODUCTO
+const getReviewsByProductName = async (nombreProducto) => {
+  // Primero buscar el producto por nombre
+  const producto = await ProductModel.findOne({ nombre: nombreProducto })
+
+  if (!producto) {
+    return []
+  }
+
+  // Luego buscar las reviews que contengan ese producto
+  const reviews = await ReviewModel.find({ 'items.nombre': nombreProducto })
+    .populate('userId', 'nombre')
+    .populate('items.productId', 'nombre categoria')
+
+  return reviews
+}
+
+// OBTENER REVIEWS POR PRODUCTO ID
 const getReviewsByProductId = async (productId) => {
   const reviews = await ReviewModel.find({ 'items.productId': productId })
     .populate('userId', 'nombre')
     .populate('items.productId', 'nombre categoria')
   return reviews
 }
-
 
 // CREAR UNA REVIEW
 const createReview = async (userId, nombre, calificacion, comentario) => {
@@ -84,6 +100,7 @@ const deleteReview = async (id) => {
 module.exports = {
   getReviews,
   getReviewById,
+  getReviewsByProductName,
   getReviewsByProductId,
   createReview,
   updateReview,

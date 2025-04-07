@@ -59,6 +59,34 @@ const getReviewsByProductId = async (req, res) => {
   }
 }
 
+// OBTENER RESEÑAS POR NOMBRE DE PRODUCTO
+const getReviewsByProductName = async (req, res) => {
+  try {
+    const { nombreProducto } = req.params
+    
+    if (!nombreProducto) {
+      return res.status(400).json({
+        success: false,
+        message: 'El nombre del producto es requerido'
+      })
+    }
+    
+    const reviews = await reviewProcess.getReviewsByProductName(nombreProducto)
+    
+    res.status(200).json({
+      success: true,
+      message: 'Reseñas Del Producto Obtenidas',
+      reviews
+    })
+  } catch (error) {
+    console.error('Error Al Obtener Reseñas Por Nombre Del Producto:', error)
+    res.status(500).json({
+      success: false,
+      message: 'Error Al Obtener Reseñas Del Producto'
+    })
+  }
+}
+
 // CREAR RESEÑA
 const createReview = async (req, res) => {
   try {
@@ -145,6 +173,7 @@ module.exports = {
   getReviews,
   getReviewById,
   getReviewsByProductId,
+  getReviewsByProductName,
   createReview,
   updateReview,
   deleteReview

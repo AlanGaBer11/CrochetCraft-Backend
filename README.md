@@ -34,13 +34,13 @@ En la terminal de este proyecto hacer `npm install` para instalar las dependenci
 
 ### User (ADMIN)
 
-| Método | Endpoint               | Descripción                |
-| ------ | ---------------------- | -------------------------- |
-| GET    | `/api/getUsers`        | Obtiene todos los usuarios |
-| GET    | `/api/getUserById/:id` | Obtiene un usuario por ID  |
-| POST   | `/api/createUser`      | Crea un nuevo usuario      |
-| PATCH  | `/api/updateUser/:id`  | Actualiza un usuario       |
-| DELETE | `/api/deleteUser/:id`  | Elimina un usuario         |
+| Método | Endpoint                    | Descripción                |
+| ------ | --------------------------- | -------------------------- |
+| GET    | `/api/user/getUsers`        | Obtiene todos los usuarios |
+| GET    | `/api/user/getUserById/:id` | Obtiene un usuario por ID  |
+| POST   | `/api/user/createUser`      | Crea un nuevo usuario      |
+| PATCH  | `/api/user/updateUser/:id`  | Actualiza un usuario       |
+| DELETE | `/api/user/deleteUser/:id`  | Elimina un usuario         |
 
 ### Auth
 
@@ -51,18 +51,18 @@ En la terminal de este proyecto hacer `npm install` para instalar las dependenci
 | POST   | `api/auth/send-verification-code` | Envia un código de verificación        |
 | POST   | `api/auth/verify-code`            | Verifica el código de verificación     |
 | POST   | `api/auth/request-password-reset` | Envia enlace para recuperar contraseña |
-| POST   | `api/auth/reset-password/:token`  | Recuperar contraseña                   |
+| POST   | `api/auth/reset-password`         | Recuperar contraseña                   |
 
 ### Product
 
-| Método | Endpoint                                | Descripción                         |
-| ------ | --------------------------------------- | ----------------------------------- |
-| GET    | `/api/getProducts`                      | Obtiene todos los productos         |
-| GET    | `/api/getProductById/:id`               | Obtiene un producto por ID          |
-| GET    | `/api/getProductsByCategory/:categoria` | Obtiene los productos por categoría |
-| POST   | `/api/createProduct`                    | Crea un nuevo producto              |
-| PATCH  | `/api/updateProduct/:id`                | Actualiza un producto               |
-| DELETE | `/api/deleteProduct/:id`                | Elimina un producto                 |
+| Método | Endpoint                                        | Descripción                         |
+| ------ | ----------------------------------------------- | ----------------------------------- |
+| GET    | `/api/product/getProducts`                      | Obtiene todos los productos         |
+| GET    | `/api/product/getProductById/:id`               | Obtiene un producto por ID          |
+| GET    | `/api/product/getProductsByCategory/:categoria` | Obtiene los productos por categoría |
+| POST   | `/api/product/createProduct`                    | Crea un nuevo producto              |
+| PATCH  | `/api/product/updateProduct/:id`                | Actualiza un producto               |
+| DELETE | `/api/product/deleteProduct/:id`                | Elimina un producto                 |
 
 ### Cart
 
@@ -75,23 +75,25 @@ En la terminal de este proyecto hacer `npm install` para instalar las dependenci
 
 ### Order
 
-| Método | Endpoint                | Descripción               |
-| ------ | ----------------------- | ------------------------- |
-| GET    | `/api/getOrders`        | Obtiene todas las ordenes |
-| GET    | `/api/getOrderById/:id` | Obtiene una orden por ID  |
-| POST   | `/api/createOrder`      | Crea una nueva orden      |
-| PATCH  | `/api/updtaeOrder/:id`  | Actualiza una orden       |
-| DELETE | `/api/deleteOrder/:id`  | Elimina una orden         |
+| Método | Endpoint                      | Descripción               |
+| ------ | ----------------------------- | ------------------------- |
+| GET    | `/api/order/getOrders`        | Obtiene todas las ordenes |
+| GET    | `/api/order/getOrderById/:id` | Obtiene una orden por ID  |
+| POST   | `/api/order/createOrder`      | Crea una nueva orden      |
+| PATCH  | `/api/order/updtaeOrder/:id`  | Actualiza una orden       |
+| DELETE | `/api/order/deleteOrder/:id`  | Elimina una orden         |
 
 ### Review
 
-| Método | Endpoint                 | Descripción               |
-| ------ | ------------------------ | ------------------------- |
-| GET    | `/api/getReviews`        | Obtiene todos las reseñas |
-| GET    | `/api/getReviewById/:id` | Obtiene una reseña por ID |
-| POST   | `/api/createReview`      | Crea una nueva reseña     |
-| PATCH  | `/api/updateReview/:id`  | Actualiza una reseña      |
-| DELETE | `/api/deleteReview/:id`  | Elimina una reseña        |
+| Método | Endpoint                                              | Descripción                                |
+| ------ | ----------------------------------------------------- | ------------------------------------------ |
+| GET    | `/api/review/getReviews`                              | Obtiene todos las reseñas                  |
+| GET    | `/api/review/getReviewById/:id`                       | Obtiene una reseña por ID                  |
+| GET    | `/api/review/getReviewByProductId/:productId`         | Obtiene una reseña por ID de un producto   |
+| GET    | `/api/review/getReviewsByProductName/:nombreProducto` | Obtiene una reseña por nombre del producto |
+| POST   | `/api/review/createReview`                            | Crea una nueva reseña                      |
+| PATCH  | `/api/review/updateReview/:id`                        | Actualiza una reseña                       |
+| DELETE | `/api/review/deleteReview/:id`                        | Elimina una reseña                         |
 
 ### Search
 
