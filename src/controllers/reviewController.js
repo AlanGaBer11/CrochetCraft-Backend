@@ -20,7 +20,7 @@ const getReviews = async (req, res) => {
   }
 }
 
-// OBTENER RESEÑA POR ID
+// OBTENER RESEÑA POR ID DE USUARIO
 const getReviewById = async (req, res) => {
   try {
     const { id } = req.params
@@ -39,36 +39,54 @@ const getReviewById = async (req, res) => {
   }
 }
 
+// OBTENER RESEÑA POR PRODUCTO
+const getReviewsByProductId = async (req, res) => {
+  try {
+    const { productId } = req.params
+    const reviews = await reviewProcess.getReviewsByProductId(productId)
+
+    res.status(200).json({
+      success: true,
+      message: 'Reseñas Del Producto Obtenidas',
+      reviews
+    })
+  } catch (error) {
+    console.error('Error Al Obtener Reseñas Del Producto:', error)
+    res.status(500).json({
+      success: false,
+      message: 'Error Al Obtener Reseñas Del Producto'
+    })
+  }
+}
+
 // CREAR RESEÑA
 const createReview = async (req, res) => {
   try {
-    const { productId, nombre, categoria, calificacion, comentario } = req.body
+    const { nombre, calificacion, comentario } = req.body
     const userId = req.user.id
 
-    // Validar datos obligatorios
-    if (!productId || !nombre || !categoria || !calificacion || !comentario) {
+    if (!nombre || !calificacion || !comentario) {
       return res
         .status(400)
         .json({ success: false, message: 'Todos Los Campos Son Obligatorios' })
     }
 
-    // Crear orden
     const review = await reviewProcess.createReview(
       userId,
-      productId,
       nombre,
-      categoria,
       calificacion,
       comentario
     )
+
     res.status(201).json({ success: true, message: 'Reseña Creada', review })
   } catch (error) {
-    console.error('Error Al Crear La Reseña:', error)
+    console.error('Error Al Crear La Reseña:', error.message)
     res
       .status(500)
       .json({ success: false, message: 'Error Interno Del Servidor' })
   }
 }
+
 
 // ACTUALIZAR ESTADO DE ORDEN
 const updateReview = async (req, res) => {
@@ -126,6 +144,7 @@ const deleteReview = async (req, res) => {
 module.exports = {
   getReviews,
   getReviewById,
+  getReviewsByProductId,
   createReview,
   updateReview,
   deleteReview

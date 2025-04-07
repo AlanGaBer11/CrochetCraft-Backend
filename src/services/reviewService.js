@@ -1,4 +1,5 @@
 const ReviewModel = require('../models/reviewModel')
+const ProductModel = require('../models/productModel')
 
 // OBTENER TODAS LAS REVIEWS
 const getReviews = async () => {
@@ -7,15 +8,35 @@ const getReviews = async () => {
     .populate('items.productId', 'nombre categoria')
 }
 
-// OBTENER UNA REVIEW POR ID
+// OBTENER UNA REVIEW POR ID DE USUARIO
 const getReviewById = async (id) => {
   return await ReviewModel.findById(id)
     .populate('userId', 'nombre')
     .populate('items.productId', 'nombre categoria')
 }
 
+// OBTENER REVIEWS POR PRODUCTO
+const getReviewsByProductId = async (productId) => {
+  const reviews = await ReviewModel.find({ 'items.productId': productId })
+    .populate('userId', 'nombre')
+    .populate('items.productId', 'nombre categoria')
+  return reviews
+}
+
+
 // CREAR UNA REVIEW
-const createReview = async (userId, productId, nombre, categoria, calificacion, comentario) => {
+const createReview = async (userId, nombre, calificacion, comentario) => {
+  // Buscar el producto por nombre
+  const producto = await ProductModel.findOne({ nombre })
+
+  if (!producto) {
+    throw new Error('Producto no encontrado')
+  }
+
+  const productId = producto._id
+  const categoria = producto.categoria
+
+  // Ver si el usuario ya tiene una review
   let review = await ReviewModel.findOne({ userId })
 
   if (!review) {
@@ -25,7 +46,7 @@ const createReview = async (userId, productId, nombre, categoria, calificacion, 
     })
   } else {
     const existingItem = review.items.find(
-      (item) => item.productId.toString() === productId
+      (item) => item.productId.toString() === productId.toString()
     )
 
     if (existingItem) {
@@ -63,6 +84,7 @@ const deleteReview = async (id) => {
 module.exports = {
   getReviews,
   getReviewById,
+  getReviewsByProductId,
   createReview,
   updateReview,
   deleteReview

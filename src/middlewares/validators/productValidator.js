@@ -19,7 +19,7 @@ const validateProduct = [
         .notEmpty().withMessage('La categoría es obligatoria')
         .isIn(['Flores', 'Amigurumis', 'Llaveros', 'Ropa']).withMessage('Categoría no válida'),
 
-    check('urlImagenes')
+    check('urlImagen')
         .notEmpty().withMessage('La imagen es obligatoria')
         .isURL().withMessage('Debe ser una URL válida'),
 

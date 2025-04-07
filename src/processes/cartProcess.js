@@ -4,12 +4,12 @@ const getCart = async (userId) => {
   return await cartService.getCart(userId)
 }
 
-const addToCart = async (userId, productId, cantidad) => {
-  return await cartService.addToCart(userId, productId, cantidad)
+const addToCart = async (userId, items) => {
+  return await cartService.addToCart(userId, items)
 }
 
-const removeFromCart = async (userId, productId) => {
-  return await cartService.removeFromCart(userId, productId)
+const removeFromCart = async (userId, nombre) => {
+  return await cartService.removeFromCart(userId, nombre)
 }
 
 const clearCart = async (userId) => {

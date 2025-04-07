@@ -32,8 +32,18 @@ const getOneProduct = async (id) => {
 
 // GET PRODUCT BY CATEGORY
 const getProductsByCategory = async (categoria) => {
-  return await productModel.find({ categoria })
-}
+  try {
+    const products = await productModel.find({ categoria });
+    const result = products.map(product => ({
+      ...product._doc,
+      urlImagen: decryptUrl(product.urlImagen) || product.urlImagen
+    }));
+    return result;
+  } catch (error) {
+    console.error('Error Al Descifrando Las URLS:', error);
+    return products; // Devolver productos con URLs sin descifrar en caso de error
+  }
+};
 
 // CREATE PRODUCT
 const createProduct = async (nombre, descripcion, precio, stock, categoria, urlImagen) => {

@@ -30,7 +30,7 @@ const createOrder = async (userId, metodoPago) => {
     const orderItems = []
 
     for (const item of cart.items) {
-      const product = await productModel.findById(item.productId)
+      const product = item.productId // Aquí ya tienes el producto completo con los datos necesarios
 
       // Verificar stock
       if (product.stock < item.cantidad) {
@@ -39,7 +39,7 @@ const createOrder = async (userId, metodoPago) => {
 
       // Actualizar stock
       await productModel.findByIdAndUpdate(
-        item.productId,
+        product._id,
         { $inc: { stock: -item.cantidad } }
       )
 
@@ -49,7 +49,9 @@ const createOrder = async (userId, metodoPago) => {
       precioTotal += subtotal
 
       orderItems.push({
-        productId: item.productId._id,
+        productId: product._id,
+        nombre: product.nombre,  // Aquí se agrega el nombre del producto
+        categoria: product.categoria,  // Aquí se agrega la categoría del producto
         cantidad: item.cantidad,
         precio: precioUnitario,
         subtotal
@@ -75,6 +77,7 @@ const createOrder = async (userId, metodoPago) => {
     throw new Error(`Error al crear la orden: ${error.message}`)
   }
 }
+
 
 // ACTUALIZAR EL ESTADO DE UNA ORDEN
 const updateOrderStatus = async (id, status) => {

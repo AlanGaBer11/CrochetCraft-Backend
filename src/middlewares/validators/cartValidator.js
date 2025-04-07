@@ -1,10 +1,13 @@
 const { check, validationResult } = require("express-validator");
 
 const validateCart = [
-    check("productId")
-        .isMongoId().withMessage("ID de producto inválido"),
+    check("items").isArray({ min: 1 }).withMessage("Debe enviar al menos un producto"),
 
-    check("cantidad")
+    check("items.*.nombre")
+        .notEmpty().withMessage("El nombre del producto es obligatorio")
+        .isString().withMessage("El nombre del producto debe ser un texto"),
+
+    check("items.*.cantidad")
         .isInt({ min: 1 }).withMessage("La cantidad debe ser al menos 1"),
 
     (req, res, next) => {

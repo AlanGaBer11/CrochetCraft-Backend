@@ -1,37 +1,39 @@
 const CartModel = require('../models/cartModel')
+const ProductModel = require('../models/productModel')
 
-// OBTENER CARRITO DE UN USUARIO
+// Obtener carrito
 const getCart = async (userId) => {
-  return await CartModel.findOne({ userId }).populate('items.productId')
+  return await CartModel.findOne({ userId })
 }
 
-// AGREGAR PRODUCTOS AL CARRITO
+// Agregar productos al carrito
 const addToCart = async (userId, items) => {
   let cart = await CartModel.findOne({ userId })
 
   if (!cart) {
-    cart = new CartModel({
-      userId,
-      items: items.map(item => ({
-        productId: item.productId,
-        cantidad: item.cantidad
-      }))
-    })
-  } else {
-    // Procesar cada item del array
-    for (const item of items) {
-      const existingItem = cart.items.find(
-        cartItem => cartItem.productId.toString() === item.productId
-      )
+    cart = new CartModel({ userId, items: [] })
+  }
 
-      if (existingItem) {
-        existingItem.cantidad += item.cantidad
-      } else {
-        cart.items.push({
-          productId: item.productId,
-          cantidad: item.cantidad
-        })
-      }
+  for (const item of items) {
+    const product = await ProductModel.findOne({ nombre: item.nombre })
+
+    if (!product) {
+      throw new Error(`Producto con nombre '${item.nombre}' no encontrado`)
+    }
+
+    const existingItem = cart.items.find(
+      cartItem => cartItem.productId.toString() === product._id.toString()
+    )
+
+    if (existingItem) {
+      existingItem.cantidad += item.cantidad
+    } else {
+      cart.items.push({
+        productId: product._id,
+        nombre: product.nombre,
+        categoria: product.categoria,
+        cantidad: item.cantidad
+      })
     }
   }
 
@@ -39,28 +41,21 @@ const addToCart = async (userId, items) => {
   return cart
 }
 
-/* ACTUALIZAR */
-
-// ELIMINAR PRODUCTO DEL CARRITO
-const removeFromCart = async (userId, productId) => {
+// Eliminar producto del carrito
+const removeFromCart = async (userId, nombre) => {
   const cart = await CartModel.findOne({ userId })
 
   if (!cart) throw new Error('El Carrito No Existe')
 
-  cart.items = cart.items.filter(
-    (item) => item.productId.toString() !== productId
-  )
+  cart.items = cart.items.filter(item => item.nombre !== nombre)
+
   await cart.save()
   return cart
 }
 
-// VACIAR CARRITO
+// Vaciar carrito
 const clearCart = async (userId) => {
   const result = await CartModel.findOneAndDelete({ userId })
-  if (!result) {
-    throw new Error('El Carrito No Existe')
-  }
-  return { message: 'Carrito Vaciado' }
 }
 
 module.exports = {
