@@ -10,6 +10,11 @@ const getOneProduct = async (id) => {
   return product
 }
 
+const getProductByName = async (nombre) => {
+  const product = await productService.getProductByName(nombre)
+  return product
+}
+
 const getProductsByCategory = async (categoria) => {
   const products = await productService.getProductsByCategory(categoria)
   return products
@@ -33,6 +38,7 @@ const deleteProduct = async (id) => {
 module.exports = {
   getAllProducts,
   getOneProduct,
+  getProductByName,
   getProductsByCategory,
   createProduct,
   updateProduct,

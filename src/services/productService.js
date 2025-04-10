@@ -30,6 +30,21 @@ const getOneProduct = async (id) => {
   }
 }
 
+// GET PRODUCT BY NAME
+const getProductByName = async (nombre) => {
+  const product = await productModel.findOne({ nombre })
+  if (!product) return null
+  try {
+    return {
+      ...product._doc,
+      urlImagen: decryptUrl(product.urlImagen) || product.urlImagen
+    }
+  } catch (error) {
+    console.error('Error Al Descifrando La URL:', error);
+    return product; // Devolver producto con URL sin descifrar en caso de error
+  }
+}
+
 // GET PRODUCT BY CATEGORY
 const getProductsByCategory = async (categoria) => {
   try {
@@ -99,6 +114,7 @@ const deleteProduct = async (id) => {
 module.exports = {
   getAllProducts,
   getOneProduct,
+  getProductByName,
   getProductsByCategory,
   createProduct,
   updateProduct,

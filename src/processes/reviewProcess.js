@@ -25,8 +25,8 @@ const createReview = async (userId, nombre, calificacion, comentario) => {
   return newReview
 }
 
-const updateReview = async (id, calificacion, comentario) => {
-  const updatedReview = await reviewService.updateReview(id, calificacion, comentario)
+const updateReview = async (id, productId, calificacion, comentario) => {
+  const updatedReview = await reviewService.updateReview(id, productId, calificacion, comentario)
   return updatedReview
 }
 

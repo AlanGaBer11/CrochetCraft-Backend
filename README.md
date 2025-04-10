@@ -55,14 +55,15 @@ En la terminal de este proyecto hacer `npm install` para instalar las dependenci
 
 ### Product
 
-| Método | Endpoint                                        | Descripción                         |
-| ------ | ----------------------------------------------- | ----------------------------------- |
-| GET    | `/api/product/getProducts`                      | Obtiene todos los productos         |
-| GET    | `/api/product/getProductById/:id`               | Obtiene un producto por ID          |
-| GET    | `/api/product/getProductsByCategory/:categoria` | Obtiene los productos por categoría |
-| POST   | `/api/product/createProduct`                    | Crea un nuevo producto              |
-| PATCH  | `/api/product/updateProduct/:id`                | Actualiza un producto               |
-| DELETE | `/api/product/deleteProduct/:id`                | Elimina un producto                 |
+| Método | Endpoint                                        | Descripción                                 |
+| ------ | ----------------------------------------------- | ------------------------------------------- |
+| GET    | `/api/product/getProducts`                      | Obtiene todos los productos                 |
+| GET    | `/api/product/getProductById/:id`               | Obtiene un producto por ID                  |
+| GET    | `/api/product/getProductByName/:nombre`         | Obtiene un producto por nombre del producto |
+| GET    | `/api/product/getProductsByCategory/:categoria` | Obtiene los productos por categoría         |
+| POST   | `/api/product/createProduct`                    | Crea un nuevo producto                      |
+| PATCH  | `/api/product/updateProduct/:id`                | Actualiza un producto                       |
+| DELETE | `/api/product/deleteProduct/:id`                | Elimina un producto                         |
 
 ### Cart
 

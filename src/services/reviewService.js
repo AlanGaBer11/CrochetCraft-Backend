@@ -14,30 +14,50 @@ const getReviewById = async (id) => {
     .populate('userId', 'nombre')
     .populate('items.productId', 'nombre categoria')
 }
-
 // OBTENER REVIEWS POR NOMBRE PRODUCTO
 const getReviewsByProductName = async (nombreProducto) => {
-  // Primero buscar el producto por nombre
-  const producto = await ProductModel.findOne({ nombre: nombreProducto })
-
-  if (!producto) {
-    return []
-  }
-
-  // Luego buscar las reviews que contengan ese producto
-  const reviews = await ReviewModel.find({ 'items.nombre': nombreProducto })
+  // Buscar reviews donde algún item tenga el nombre especificado
+  const reviews = await ReviewModel.find({ 'items.nombre': { $regex: nombreProducto, $options: 'i' } })
     .populate('userId', 'nombre')
     .populate('items.productId', 'nombre categoria')
 
-  return reviews
+  // Filtrar los items en cada review para mostrar solo los que coinciden con el nombre
+  const filteredReviews = reviews.map(review => {
+    const filteredItems = review.items.filter(item =>
+      item.nombre.toLowerCase().includes(nombreProducto.toLowerCase())
+    );
+
+    // Crear una copia de la review con solo los items filtrados
+    const reviewObj = review.toObject();
+    reviewObj.items = filteredItems;
+
+    return reviewObj;
+  });
+
+  return filteredReviews;
 }
 
 // OBTENER REVIEWS POR PRODUCTO ID
 const getReviewsByProductId = async (productId) => {
+  // Buscar reviews donde algún item tenga el ID de producto especificado
   const reviews = await ReviewModel.find({ 'items.productId': productId })
     .populate('userId', 'nombre')
     .populate('items.productId', 'nombre categoria')
-  return reviews
+
+  // Filtrar los items en cada review para mostrar solo los que coinciden con el ID
+  const filteredReviews = reviews.map(review => {
+    const filteredItems = review.items.filter(item =>
+      item.productId._id.toString() === productId
+    );
+
+    // Crear una copia de la review con solo los items filtrados
+    const reviewObj = review.toObject();
+    reviewObj.items = filteredItems;
+
+    return reviewObj;
+  });
+
+  return filteredReviews;
 }
 
 // CREAR UNA REVIEW
@@ -78,6 +98,7 @@ const createReview = async (userId, nombre, calificacion, comentario) => {
 }
 
 // ACTUALIZAR UNA REVIEW (actualiza calificación y comentario de un producto en una review)
+// En reviewService.js
 const updateReview = async (reviewId, productId, calificacion, comentario) => {
   const review = await ReviewModel.findById(reviewId)
   if (!review) return null

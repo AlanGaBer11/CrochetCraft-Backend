@@ -63,16 +63,16 @@ const getReviewsByProductId = async (req, res) => {
 const getReviewsByProductName = async (req, res) => {
   try {
     const { nombreProducto } = req.params
-    
+
     if (!nombreProducto) {
       return res.status(400).json({
         success: false,
         message: 'El nombre del producto es requerido'
       })
     }
-    
+
     const reviews = await reviewProcess.getReviewsByProductName(nombreProducto)
-    
+
     res.status(200).json({
       success: true,
       message: 'Reseñas Del Producto Obtenidas',
@@ -116,13 +116,13 @@ const createReview = async (req, res) => {
 }
 
 
-// ACTUALIZAR ESTADO DE ORDEN
+// ACTUALIZAR REVIEW
 const updateReview = async (req, res) => {
   try {
     const { id } = req.params
-    const { calificacion, comentario } = req.body
+    const { productId, calificacion, comentario } = req.body
 
-    if (!calificacion || !comentario) {
+    if (!productId || !calificacion || !comentario) {
       return res
         .status(400)
         .json({ success: false, message: 'Todos Los Campos Son Obligatorios' })
@@ -130,13 +130,14 @@ const updateReview = async (req, res) => {
 
     const review = await reviewProcess.updateReview(
       id,
+      productId,
       calificacion,
       comentario
     )
     if (!review) {
       return res
         .status(404)
-        .json({ success: false, message: 'Orden no encontrada' })
+        .json({ success: false, message: 'Reseña no encontrada' })
     }
 
     res

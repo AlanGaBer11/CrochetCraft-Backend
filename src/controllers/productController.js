@@ -32,6 +32,19 @@ const getOneProduct = async (req, res) => {
   }
 }
 
+const getProductByName = async (req, res) => {
+  try {
+    const product = await productProcess.getProductByName(req.params.nombre)
+    if (!product) {
+      return res.status(404).json({ success: false, error: 'Producto No Encontrado' })
+    }
+    res.status(200).json({ success: true, message: 'Producto Obtenido', product })
+  } catch (error) {
+    console.error('Error Al Obtener El Producto Por Nombre', error)
+    res.status(500).json({ success: false, message: 'Error Interno Del Servidor' })
+  }
+}
+
 const getProductsByCategory = async (req, res) => {
   try {
     const products = await productProcess.getProductsByCategory(req.params.categoria)
@@ -88,6 +101,7 @@ const deleteProduct = async (req, res) => {
 module.exports = {
   getAllProducts,
   getOneProduct,
+  getProductByName,
   getProductsByCategory,
   createProduct,
   updateProduct,
