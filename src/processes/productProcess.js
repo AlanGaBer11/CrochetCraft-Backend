@@ -1,5 +1,4 @@
 const productService = require('../services/productService')
-
 const getAllProducts = async () => {
   const products = await productService.getAllProducts()
   return products

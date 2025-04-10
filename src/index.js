@@ -38,7 +38,7 @@ const PORT = process.env.PORT || 3000
 // LÍMITE DE PETICIONES
 const limiter = rateLimit({
   windowMs: 60 * 1000, // 1 MINUTO
-  limit: 100000000, // 100 PETICIONES POR MINUTO,
+  limit: 100, // 100 PETICIONES POR MINUTO,
   message: '¡Demasiadas peticiones!',
   standardHeaders: true,
   handler: (req, res) => {
@@ -49,7 +49,7 @@ const limiter = rateLimit({
 
 app.use(limiter) // APLICAR EL LÍMITE DE PETICIONES A TODAS LAS RUTAS
 
-// MIDDLEWARES
+// CORS
 app.use(cors(corsOptions))
 app.options('*', cors(corsOptions))
 app.use(bodyParser.json())

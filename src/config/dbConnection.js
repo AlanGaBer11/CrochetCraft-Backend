@@ -1,11 +1,10 @@
 const mongoose = require('mongoose')
-const { MongoClient, ServerApiVersion } = require('mongodb');
 
 // LOCAL
 const connection = async () => {
   try {
-    console.log('Intentando conectar a:', process.env.MONGO_URI_LOCAL) // CAMBIAR LOCAL POR PROD
-    await mongoose.connect(process.env.MONGO_URI_LOCAL, {
+    console.log('Intentando conectar a:', process.env.MONGO_URI_PROD) // CAMBIAR LOCAL POR PROD
+    await mongoose.connect(process.env.MONGO_URI_PROD, {
       useNewUrlParser: true,
       useUnifiedTopology: true
     })
