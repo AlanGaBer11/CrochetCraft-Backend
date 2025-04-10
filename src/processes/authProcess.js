@@ -38,11 +38,32 @@ const resetPassword = async (token, newPassword) => {
   return result
 }
 
+// CAMBIAR ROL DE USUARIO
+const changeUserRole = async (userId, newRole) => {
+  const result = await authService.changeUserRole(userId, newRole);
+  return result;
+}
+
+// VERIFICAR PERMISO
+const checkPermission = async (userId, permission) => {
+  const result = await authService.checkPermission(userId, permission);
+  return result;
+}
+
+// OBTENER TODOS LOS PERMISOS DE UN USUARIO
+const getUserPermissions = async (userId) => {
+  const result = await authService.getUserPermissions(userId);
+  return result;
+}
+
 module.exports = {
   registerUser,
   loginUser,
   sendVerificationCode,
   verifyCode,
   requestPasswordReset,
-  resetPassword
+  resetPassword,
+  changeUserRole,
+  checkPermission,
+  getUserPermissions
 }

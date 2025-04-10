@@ -122,11 +122,87 @@ const resetPassword = async (req, res) => {
   }
 }
 
+// CAMBIAR ROL DE USUARIO
+const changeUserRole = async (req, res) => {
+  try {
+    const { userId, newRole } = req.body;
+
+    if (!userId || !newRole) {
+      return res.status(400).json({
+        success: false,
+        message: 'ID de Usuario y Nuevo Rol Son Requeridos'
+      });
+    }
+
+    const user = await authProcess.changeUserRole(userId, newRole);
+
+    res.status(200).json({
+      success: true,
+      message: 'Rol de Usuario Actualizado Exitosamente',
+      user
+    });
+  } catch (error) {
+    console.error('Error Al Cambiar Rol de Usuario:', error);
+    res.status(400).json({ success: false, message: error.message });
+  }
+}
+
+// VERIFICAR PERMISO
+const checkPermission = async (req, res) => {
+  try {
+    const { userId, permission } = req.body;
+
+    if (!userId || !permission) {
+      return res.status(400).json({
+        success: false,
+        message: 'ID de Usuario y Permiso Son Requeridos'
+      });
+    }
+
+    const result = await authProcess.checkPermission(userId, permission);
+
+    res.status(200).json({
+      success: true,
+      ...result
+    });
+  } catch (error) {
+    console.error('Error Al Verificar Permiso:', error);
+    res.status(400).json({ success: false, message: error.message });
+  }
+}
+
+// OBTENER TODOS LOS PERMISOS DE UN USUARIO
+const getUserPermissions = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: 'ID de Usuario Es Requerido'
+      });
+    }
+
+    const result = await authProcess.getUserPermissions(userId);
+
+    res.status(200).json({
+      success: true,
+      ...result
+    });
+  } catch (error) {
+    console.error('Error Al Obtener Permisos:', error);
+    res.status(400).json({ success: false, message: error.message });
+  }
+}
+
 module.exports = {
   registerUser,
   loginUser,
   sendVerificationCode,
   verifyCode,
   requestPasswordReset,
-  resetPassword
+  resetPassword,
+  changeUserRole,
+  checkPermission,
+  getUserPermissions
 }

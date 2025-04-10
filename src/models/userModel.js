@@ -7,6 +7,12 @@ const roles = {
   message: '{VALUE} no es un rol válido'
 }
 
+// PERMISOS PARA CADAR ROL
+const rolePermissions = {
+  ADMIN: ['read', 'write', 'update', 'delete', 'manage_users', 'manage_products', 'manage_orders'],
+  CLIENTE: ['read', 'place_order', 'view_profile']
+}
+
 const userSchema = new mongoose.Schema(
   {
     nombre: {
@@ -35,6 +41,12 @@ const userSchema = new mongoose.Schema(
       default: 'CLIENTE',
       required: true
     },
+    permissions: {
+      type: [String],
+      default: function() {
+        return rolePermissions[this.rol] || rolePermissions.CLIENTE;
+      }
+    },
     resetPasswordToken: { type: String },
     resetPasswordExpires: { type: Date },
     verificationCode: { type: String }, // Código de verificación
@@ -45,5 +57,16 @@ const userSchema = new mongoose.Schema(
 
 // PLUGIN PARA VERIFICAR LOS CAMPOS ÚNICOS
 userSchema.plugin(uniqueValidator, { message: '{PATH} debe ser único' })
+
+// Method to check if user has a specific permission
+userSchema.methods.hasPermission = function(permission) {
+  return this.permissions.includes(permission);
+};
+
+// Method to update permissions based on role
+userSchema.methods.updatePermissions = function() {
+  this.permissions = rolePermissions[this.rol] || rolePermissions.CLIENTE;
+  return this.permissions;
+};
 
 module.exports = mongoose.model('users', userSchema)

@@ -1,5 +1,26 @@
 # CrochetCraft
 
+Este proyecto es una API RESTful construida con **Node.js** y **Express**, con una base de datos **MongoDB**. A continuación se describe la estructura del proyecto y su funcionamiento.
+
+# Estructura del Proyecto
+
+La estructura de directorios está organizada de manera modular para facilitar el mantenimiento y la escalabilidad:
+
+- **`/config`**: Aquí se encuentra la configuración general del proyecto, como la conexión a la base de datos.
+
+- **`/models`**: Este directorio contiene los modelos de datos, que definen los esquemas para la base de datos. Aquí se definen las estructuras de las colecciones de MongoDB utilizando **Mongoose**.
+
+- **`/services`**: En este directorio se encuentra la lógica de negocio que interactúa con los modelos. Los servicios contienen las funciones que realizan operaciones sobre los datos, como consultas, inserciones o actualizaciones.
+
+- **`/process`**: Este directorio contiene las funciones específicas que manejan procesos en segundo plano o tareas que requieren ser ejecutadas independientemente del flujo principal, como procesamiento de datos, integración con otros servicios, etc.
+
+- **`/controller`**: Este directorio contiene los controladores que gestionan la lógica de cada ruta. Los controladores reciben las solicitudes, interactúan con los servicios y devuelven las respuestas adecuadas.
+
+- **`/routes`**: En este directorio se encuentran los archivos que definen las rutas o endpoints de la API. Cada archivo de ruta está vinculado a un controlador o conjunto de funcionalidades específicas.
+- **`/middlewares`**: En este directorio se encuentran los middlewares personalizados que se pueden usar para validar o autenticar las solicitudes antes de que lleguen a los controladores.
+
+- **`index.js`**: Este es el archivo principal donde se inicializa el servidor de Express y se configuran las rutas y la conexión a la base de datos.
+
 # Requisitos Previos
 
 Antes de comenzar, asegúrate de tener instalado:
