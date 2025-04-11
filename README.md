@@ -50,6 +50,8 @@ En la terminal de este proyecto hacer `npm install` para instalar las dependenci
 - `npm nodemailer` - Enviar correos electrónicos
 - `npm https` -
 - `npm fs` -
+- `npm fs` -
+- `npm --save-dev jest supertest` -
 
 ## Endpoints
 

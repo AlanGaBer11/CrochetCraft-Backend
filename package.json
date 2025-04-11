@@ -18,9 +18,11 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "globals": "^16.0.0",
+    "jest": "^29.7.0",
     "mongoose": "^8.9.6",
     "nodemon": "^3.1.9",
-    "standard": "^17.1.2"
+    "standard": "^17.1.2",
+    "supertest": "^7.1.0"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
