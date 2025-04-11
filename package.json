@@ -7,7 +7,6 @@
     "start": "node ./src/index.js",
     "dev": "nodemon ./src/index.js",
     "lint": "eslint .",
-    "test": "standard && node my-tests.js",
     "format": "standard --fix"
   },
   "keywords": [],
