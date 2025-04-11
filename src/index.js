@@ -55,10 +55,10 @@ app.options('*', cors(corsOptions))
 app.use(bodyParser.json())
 
 // LEE LA CLAVE Y EL CERTIFICADO
-const options = {
+/* const options = {
   key: fs.readFileSync('key.pem'),
   cert: fs.readFileSync('cert.pem')
-}
+} */
 
 // RUTA DE BIENVENIDA
 app.get('/', (req, res) => {
