@@ -5,8 +5,8 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const rateLimit = require('express-rate-limit')
 const helmet = require('helmet')
-const fs = require('fs')
-const https = require('https')
+/* const fs = require('fs')
+const https = require('https') */
 const connection = require('./config/dbConnection')
 connection()
 

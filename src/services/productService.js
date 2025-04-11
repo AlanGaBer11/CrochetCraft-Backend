@@ -11,7 +11,8 @@ const getAllProducts = async () => {
     }))
   } catch (error) {
     console.error('Error Al Descifrando Las URLS:', error)
-    return products // Devolver productos con URLs sin descifrar en caso de error
+    const products = []
+    return products
   }
 }
 

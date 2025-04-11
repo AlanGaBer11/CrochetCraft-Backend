@@ -56,6 +56,7 @@ const removeFromCart = async (userId, nombre) => {
 // Vaciar carrito
 const clearCart = async (userId) => {
   const result = await CartModel.findOneAndDelete({ userId })
+  return result
 }
 
 module.exports = {
