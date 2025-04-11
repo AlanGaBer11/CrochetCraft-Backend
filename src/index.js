@@ -21,7 +21,7 @@ const searchRoutes = require('./routes/searchRoutes')
 
 /* COOKIES */
 const corsOptions = {
-  origin: ['http://localhost:4200', 'https://crochet-craft-frontend-6hep6btjq-alangaber11-gmailcoms-projects.vercel.app'],
+  origin: ['http://localhost:4200', 'https://crochet-craft-frontend.vercel.app'],
   credentials: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   allowedHeaders: 'Content-Type,Authorization',
@@ -30,6 +30,11 @@ const corsOptions = {
 
 // INICIALIZAR EXPRESS
 const app = express()
+// Middleware de prueba para ver de dónde vienen las peticiones
+app.use((req, res, next) => {
+  console.log('Petición desde:', req.headers.origin);
+  next();
+});
 
 // CAPA DE SEGURIDAD
 app.use(helmet())
