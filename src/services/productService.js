@@ -49,19 +49,19 @@ const getProductByName = async (nombre) => {
 // GET PRODUCT BY CATEGORY
 // GET PRODUCT BY CATEGORY
 const getProductsByCategory = async (categoria) => {
-  let products = []; // Define products with a default value
+  let products = [] // Define products with a default value
   try {
-    products = await productModel.find({ categoria });
+    products = await productModel.find({ categoria })
     const result = products.map(product => ({
       ...product._doc,
       urlImagen: decryptUrl(product.urlImagen) || product.urlImagen
-    }));
-    return result;
+    }))
+    return result
   } catch (error) {
-    console.error('Error Al Descifrando Las URLS:', error);
-    return products; // Return the default empty array in case of an error
+    console.error('Error Al Descifrando Las URLS:', error)
+    return products // Return the default empty array in case of an error
   }
-};
+}
 
 // CREATE PRODUCT
 const createProduct = async (nombre, descripcion, precio, stock, categoria, urlImagen) => {
