@@ -10,8 +10,8 @@ const getAllProducts = async () => {
       urlImagen: decryptUrl(product.urlImagen) || product.urlImagen
     }))
   } catch (error) {
-    console.error('Error Al Descifrando Las URLS:', error);
-    return products; // Devolver productos con URLs sin descifrar en caso de error
+    console.error('Error Al Descifrando Las URLS:', error)
+    return products // Devolver productos con URLs sin descifrar en caso de error
   }
 }
 
@@ -25,8 +25,8 @@ const getOneProduct = async (id) => {
       urlImagen: decryptUrl(product.urlImagen) || product.urlImagen
     }
   } catch (error) {
-    console.error('Error Al Descifrando La URL:', error);
-    return product; // Devolver producto con URL sin descifrar en caso de error
+    console.error('Error Al Descifrando La URL:', error)
+    return product // Devolver producto con URL sin descifrar en caso de error
   }
 }
 
@@ -40,25 +40,25 @@ const getProductByName = async (nombre) => {
       urlImagen: decryptUrl(product.urlImagen) || product.urlImagen
     }
   } catch (error) {
-    console.error('Error Al Descifrando La URL:', error);
-    return product; // Devolver producto con URL sin descifrar en caso de error
+    console.error('Error Al Descifrando La URL:', error)
+    return product // Devolver producto con URL sin descifrar en caso de error
   }
 }
 
 // GET PRODUCT BY CATEGORY
 const getProductsByCategory = async (categoria) => {
   try {
-    const products = await productModel.find({ categoria });
+    const products = await productModel.find({ categoria })
     const result = products.map(product => ({
       ...product._doc,
       urlImagen: decryptUrl(product.urlImagen) || product.urlImagen
-    }));
-    return result;
+    }))
+    return result
   } catch (error) {
-    console.error('Error Al Descifrando Las URLS:', error);
-    return products; // Devolver productos con URLs sin descifrar en caso de error
+    console.error('Error Al Descifrando Las URLS:', error)
+    return products // Devolver productos con URLs sin descifrar en caso de error
   }
-};
+}
 
 // CREATE PRODUCT
 const createProduct = async (nombre, descripcion, precio, stock, categoria, urlImagen) => {
@@ -81,7 +81,7 @@ const createProduct = async (nombre, descripcion, precio, stock, categoria, urlI
   await newproduct.save()
   return {
     ...newproduct._doc,
-    urlImagen: urlImagen // Devolver URL original
+    urlImagen // Devolver URL original
   }
 }
 
@@ -102,7 +102,7 @@ const updateProduct = async (id, nombre, descripcion, precio, stock, categoria, 
   )
   return {
     ...product._doc,
-    urlImagen: urlImagen // Devolver URL original
+    urlImagen // Devolver URL original
   }
 }
 

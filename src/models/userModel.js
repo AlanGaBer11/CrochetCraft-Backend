@@ -43,8 +43,8 @@ const userSchema = new mongoose.Schema(
     },
     permissions: {
       type: [String],
-      default: function() {
-        return rolePermissions[this.rol] || rolePermissions.CLIENTE;
+      default: function () {
+        return rolePermissions[this.rol] || rolePermissions.CLIENTE
       }
     },
     resetPasswordToken: { type: String },
@@ -59,14 +59,14 @@ const userSchema = new mongoose.Schema(
 userSchema.plugin(uniqueValidator, { message: '{PATH} debe ser único' })
 
 // Method to check if user has a specific permission
-userSchema.methods.hasPermission = function(permission) {
-  return this.permissions.includes(permission);
-};
+userSchema.methods.hasPermission = function (permission) {
+  return this.permissions.includes(permission)
+}
 
 // Method to update permissions based on role
-userSchema.methods.updatePermissions = function() {
-  this.permissions = rolePermissions[this.rol] || rolePermissions.CLIENTE;
-  return this.permissions;
-};
+userSchema.methods.updatePermissions = function () {
+  this.permissions = rolePermissions[this.rol] || rolePermissions.CLIENTE
+  return this.permissions
+}
 
 module.exports = mongoose.model('users', userSchema)

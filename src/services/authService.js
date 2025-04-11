@@ -28,7 +28,7 @@ const registerUser = async (nombre, email, password, rol) => {
     })
 
     // Asignar permisos basados en el rol
-    newUser.updatePermissions();
+    newUser.updatePermissions()
 
     // Enviar Correo de Bienvenida
     const subject = 'Bienvenido CrochetCraft'
@@ -174,59 +174,59 @@ const resetPassword = async (token, newPassword) => {
 // CAMBIAR ROL DE USUARIO
 const changeUserRole = async (userId, newRole) => {
   try {
-    const user = await UserModel.findById(userId);
+    const user = await UserModel.findById(userId)
     if (!user) {
-      throw new Error('Usuario No Encontrado');
+      throw new Error('Usuario No Encontrado')
     }
 
     // Verificar si el rol es válido
     if (!['ADMIN', 'CLIENTE'].includes(newRole)) {
-      throw new Error('Rol No Válido');
+      throw new Error('Rol No Válido')
     }
 
-    user.rol = newRole;
+    user.rol = newRole
     // Actualizar permisos basados en el nuevo rol
-    user.updatePermissions();
-    await user.save();
+    user.updatePermissions()
+    await user.save()
 
-    return user;
+    return user
   } catch (error) {
-    throw new Error(`Error Al Cambiar Rol: ${error.message}`);
+    throw new Error(`Error Al Cambiar Rol: ${error.message}`)
   }
 }
 
 // VERIFICAR PERMISO
 const checkPermission = async (userId, permission) => {
   try {
-    const user = await UserModel.findById(userId);
+    const user = await UserModel.findById(userId)
     if (!user) {
-      throw new Error('Usuario No Encontrado');
+      throw new Error('Usuario No Encontrado')
     }
 
     return {
       hasPermission: user.hasPermission(permission),
       userRole: user.rol,
       permissions: user.permissions
-    };
+    }
   } catch (error) {
-    throw new Error(`Error Al Verificar Permiso: ${error.message}`);
+    throw new Error(`Error Al Verificar Permiso: ${error.message}`)
   }
 }
 
 // OBTENER TODOS LOS PERMISOS DE UN USUARIO
 const getUserPermissions = async (userId) => {
   try {
-    const user = await UserModel.findById(userId);
+    const user = await UserModel.findById(userId)
     if (!user) {
-      throw new Error('Usuario No Encontrado');
+      throw new Error('Usuario No Encontrado')
     }
 
     return {
       userRole: user.rol,
       permissions: user.permissions
-    };
+    }
   } catch (error) {
-    throw new Error(`Error Al Obtener Permisos: ${error.message}`);
+    throw new Error(`Error Al Obtener Permisos: ${error.message}`)
   }
 }
 

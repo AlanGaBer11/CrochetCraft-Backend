@@ -50,8 +50,8 @@ const createOrder = async (userId, metodoPago) => {
 
       orderItems.push({
         productId: product._id,
-        nombre: product.nombre,  // Aquí se agrega el nombre del producto
-        categoria: product.categoria,  // Aquí se agrega la categoría del producto
+        nombre: product.nombre, // Aquí se agrega el nombre del producto
+        categoria: product.categoria, // Aquí se agrega la categoría del producto
         cantidad: item.cantidad,
         precio: precioUnitario,
         subtotal
@@ -77,7 +77,6 @@ const createOrder = async (userId, metodoPago) => {
     throw new Error(`Error al crear la orden: ${error.message}`)
   }
 }
-
 
 // ACTUALIZAR EL ESTADO DE UNA ORDEN
 const updateOrderStatus = async (id, status) => {

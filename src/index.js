@@ -43,7 +43,7 @@ const limiter = rateLimit({
   standardHeaders: true,
   handler: (req, res) => {
     console.log('IP Bloqueada, alcanzo el límite de peticiones')
-    res.status(409).json({ error: "¡Demasiaas peticiones!" })
+    res.status(409).json({ error: '¡Demasiaas peticiones!' })
   }
 })
 
@@ -58,7 +58,7 @@ app.use(bodyParser.json())
 const options = {
   key: fs.readFileSync('key.pem'),
   cert: fs.readFileSync('cert.pem')
-};
+}
 
 // RUTA DE BIENVENIDA
 app.get('/', (req, res) => {

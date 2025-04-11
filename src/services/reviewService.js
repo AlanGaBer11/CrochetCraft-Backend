@@ -25,16 +25,16 @@ const getReviewsByProductName = async (nombreProducto) => {
   const filteredReviews = reviews.map(review => {
     const filteredItems = review.items.filter(item =>
       item.nombre.toLowerCase().includes(nombreProducto.toLowerCase())
-    );
+    )
 
     // Crear una copia de la review con solo los items filtrados
-    const reviewObj = review.toObject();
-    reviewObj.items = filteredItems;
+    const reviewObj = review.toObject()
+    reviewObj.items = filteredItems
 
-    return reviewObj;
-  });
+    return reviewObj
+  })
 
-  return filteredReviews;
+  return filteredReviews
 }
 
 // OBTENER REVIEWS POR PRODUCTO ID
@@ -48,16 +48,16 @@ const getReviewsByProductId = async (productId) => {
   const filteredReviews = reviews.map(review => {
     const filteredItems = review.items.filter(item =>
       item.productId._id.toString() === productId
-    );
+    )
 
     // Crear una copia de la review con solo los items filtrados
-    const reviewObj = review.toObject();
-    reviewObj.items = filteredItems;
+    const reviewObj = review.toObject()
+    reviewObj.items = filteredItems
 
-    return reviewObj;
-  });
+    return reviewObj
+  })
 
-  return filteredReviews;
+  return filteredReviews
 }
 
 // CREAR UNA REVIEW

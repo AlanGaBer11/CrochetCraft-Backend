@@ -1,14 +1,14 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const status = {
   values: ['Pendiente', 'Enviado', 'Entregado', 'Cancelado'],
   message: '{VALUE} no es un estado válido'
-};
+}
 
 const metodosPago = {
   values: ['Tarjeta de Crédito', 'Tarjeta de Débito', 'Transferencia', 'Efectivo'],
   message: '{VALUE} no es un método de pago válido'
-};
+}
 
 // Esquema de Item
 const itemSchema = new mongoose.Schema({
@@ -38,7 +38,7 @@ const itemSchema = new mongoose.Schema({
     type: Number,
     required: true
   }
-});
+})
 
 // Esquema de la orden (Order)
 const OrderSchema = new mongoose.Schema(
@@ -58,6 +58,6 @@ const OrderSchema = new mongoose.Schema(
     metodoPago: { type: String, required: true, enum: metodosPago }
   },
   { timestamps: true }
-);
+)
 
-module.exports = mongoose.model('orders', OrderSchema);
+module.exports = mongoose.model('orders', OrderSchema)

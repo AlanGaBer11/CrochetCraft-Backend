@@ -35,26 +35,26 @@ const checkPermission = (requiredPermission) => {
   return async (req, res, next) => {
     try {
       // Obtener token del header
-      const token = req.header('Authorization')?.replace('Bearer ', '');
+      const token = req.header('Authorization')?.replace('Bearer ', '')
 
       if (!token) {
         return res.status(401).json({
           success: false,
           message: 'Acceso Denegado. Token No Proporcionado'
-        });
+        })
       }
 
       // Verificar token
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
       // Buscar usuario
-      const user = await UserModel.findById(decoded.id);
+      const user = await UserModel.findById(decoded.id)
 
       if (!user) {
         return res.status(404).json({
           success: false,
           message: 'Usuario No Encontrado'
-        });
+        })
       }
 
       // Verificar permiso
@@ -62,20 +62,20 @@ const checkPermission = (requiredPermission) => {
         return res.status(403).json({
           success: false,
           message: 'Acceso Denegado. No Tiene Permiso Suficiente'
-        });
+        })
       }
 
       // Añadir usuario al request
-      req.user = user;
-      next();
+      req.user = user
+      next()
     } catch (error) {
-      console.error('Error en Middleware de Permisos:', error);
+      console.error('Error en Middleware de Permisos:', error)
       res.status(401).json({
         success: false,
         message: 'Token Inválido o Expirado'
-      });
+      })
     }
-  };
-};
+  }
+}
 
 module.exports = { checkRole, checkPermission }
