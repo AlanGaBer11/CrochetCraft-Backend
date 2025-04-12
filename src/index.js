@@ -32,9 +32,9 @@ const corsOptions = {
 const app = express()
 // Middleware de prueba para ver de dónde vienen las peticiones
 app.use((req, res, next) => {
-  console.log('Petición desde:', req.headers.origin);
-  next();
-});
+  console.log('Petición desde:', req.headers.origin)
+  next()
+})
 
 // CAPA DE SEGURIDAD
 app.use(helmet())
