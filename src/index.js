@@ -21,7 +21,7 @@ const searchRoutes = require('./routes/searchRoutes')
 
 /* COOKIES */
 const corsOptions = {
-  origin: ['http://localhost:4200', 'https://crochet-craft-frontend.vercel.app'],
+  origin: ['*, http://localhost:4200', 'https://crochet-craft-frontend.vercel.app'],
   credentials: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   allowedHeaders: 'Content-Type,Authorization',
