@@ -37,17 +37,17 @@ const getReviewsByProductName = async (nombreProducto) => {
   return filteredReviews
 }
 
-// OBTENER REVIEWS POR PRODUCTO ID
-const getReviewsByProductId = async (productId) => {
-  // Buscar reviews donde algún item tenga el ID de producto especificado
-  const reviews = await ReviewModel.find({ 'items.productId': productId })
+// OBTENER REVIEWS POR CATEGORIA DEL PRODUCTO
+const getReviewsByProductCategory = async (categoria) => {
+  // Buscar reviews donde algún item tenga la categoría especificada
+  const reviews = await ReviewModel.find({ 'items.categoria': categoria })
     .populate('userId', 'nombre')
     .populate('items.productId', 'nombre categoria')
 
-  // Filtrar los items en cada review para mostrar solo los que coinciden con el ID
+  // Filtrar los items en cada review para mostrar solo los que coinciden con la categoría
   const filteredReviews = reviews.map(review => {
     const filteredItems = review.items.filter(item =>
-      item.productId._id.toString() === productId
+      item.categoria === categoria
     )
 
     // Crear una copia de la review con solo los items filtrados
@@ -98,7 +98,6 @@ const createReview = async (userId, nombre, calificacion, comentario) => {
 }
 
 // ACTUALIZAR UNA REVIEW (actualiza calificación y comentario de un producto en una review)
-// En reviewService.js
 const updateReview = async (reviewId, productId, calificacion, comentario) => {
   const review = await ReviewModel.findById(reviewId)
   if (!review) return null
@@ -122,7 +121,7 @@ module.exports = {
   getReviews,
   getReviewById,
   getReviewsByProductName,
-  getReviewsByProductId,
+  getReviewsByProductCategory,
   createReview,
   updateReview,
   deleteReview

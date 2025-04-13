@@ -1,6 +1,6 @@
 const CryptoJS = require('crypto-js')
 
-const SECRET_KEY = process.env.CRYPTO_SECRET_KEY || 'your-secret-key'
+const SECRET_KEY = process.env.CRYPTO_SECRET_KEY || 'your-very-secure-key-here32'
 
 const encryptUrl = (url) => {
   if (!url) return ''

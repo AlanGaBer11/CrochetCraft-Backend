@@ -39,26 +39,6 @@ const getReviewById = async (req, res) => {
   }
 }
 
-// OBTENER RESEÑA POR PRODUCTO
-const getReviewsByProductId = async (req, res) => {
-  try {
-    const { productId } = req.params
-    const reviews = await reviewProcess.getReviewsByProductId(productId)
-
-    res.status(200).json({
-      success: true,
-      message: 'Reseñas Del Producto Obtenidas',
-      reviews
-    })
-  } catch (error) {
-    console.error('Error Al Obtener Reseñas Del Producto:', error)
-    res.status(500).json({
-      success: false,
-      message: 'Error Al Obtener Reseñas Del Producto'
-    })
-  }
-}
-
 // OBTENER RESEÑAS POR NOMBRE DE PRODUCTO
 const getReviewsByProductName = async (req, res) => {
   try {
@@ -83,6 +63,34 @@ const getReviewsByProductName = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Error Al Obtener Reseñas Del Producto'
+    })
+  }
+}
+
+// OBTENER RESEÑA POR PRODUCTO
+const getReviewsByProductCategory = async (req, res) => {
+  try {
+    const { categoria } = req.params
+
+    if (!categoria) {
+      return res.status(400).json({
+        success: false,
+        message: 'La categoría es requerida'
+      })
+    }
+
+    const reviews = await reviewProcess.getReviewsByProductCategory(categoria)
+
+    res.status(200).json({
+      success: true,
+      message: 'Reseñas Por Categoría Obtenidas',
+      reviews
+    })
+  } catch (error) {
+    console.error('Error Al Obtener Reseñas Por Categoría:', error)
+    res.status(500).json({
+      success: false,
+      message: 'Error Al Obtener Reseñas Por Categoría'
     })
   }
 }
@@ -172,7 +180,7 @@ const deleteReview = async (req, res) => {
 module.exports = {
   getReviews,
   getReviewById,
-  getReviewsByProductId,
+  getReviewsByProductCategory,
   getReviewsByProductName,
   createReview,
   updateReview,

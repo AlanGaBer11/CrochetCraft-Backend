@@ -21,10 +21,13 @@ const searchRoutes = require('./routes/searchRoutes')
 
 /* COOKIES */
 const corsOptions = {
-  origin: ['*, http://localhost:4200', 'https://crochet-craft-frontend.vercel.app'],
+  origin: [
+    'http://localhost:4200',                          // Frontend en desarrollo local
+    'https://crochet-craft-frontend.vercel.app'       // Frontend en producción
+  ],
   credentials: true,
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  allowedHeaders: 'Content-Type,Authorization',
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   optionsSuccessStatus: 200
 }
 
@@ -48,7 +51,7 @@ const limiter = rateLimit({
   standardHeaders: true,
   handler: (req, res) => {
     console.log('IP Bloqueada, alcanzo el límite de peticiones')
-    res.status(409).json({ error: '¡Demasiaas peticiones!' })
+    res.status(409).json({ error: 'Demasiadas peticiones!' })
   }
 })
 
@@ -57,6 +60,34 @@ app.use(limiter) // APLICAR EL LÍMITE DE PETICIONES A TODAS LAS RUTAS
 // CORS
 app.use(cors(corsOptions))
 app.options('*', cors(corsOptions))
+
+// Add explicit CORS headers for preflight requests
+app.use((req, res, next) => {
+  const allowedOrigins = [
+    'http://localhost:4200',
+    'https://crochet-craft-frontend.vercel.app'
+  ];
+  const origin = req.headers.origin;
+
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  } else if (process.env.NODE_ENV === 'development') {
+    // Solo en desarrollo permitir cualquier origen
+    res.header('Access-Control-Allow-Origin', '*');
+  }
+
+  res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
+
+  // Manejar solicitudes preflight
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  next();
+});
+
 app.use(bodyParser.json())
 
 // LEE LA CLAVE Y EL CERTIFICADO
