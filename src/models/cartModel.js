@@ -18,6 +18,11 @@ const itemSchema = new mongoose.Schema({
     type: Number,
     required: true,
     min: 1
+  },
+  precioUnitario: {
+    type: Number,
+    required: true,
+    min: 0
   }
 })
 
@@ -27,7 +32,11 @@ const cartSchema = new mongoose.Schema({
     ref: 'users',
     required: true
   },
-  items: [itemSchema]
+  items: [itemSchema],
+  precioTotal: {
+    type: Number,
+    default: 0
+  }
 }, { timestamps: true })
 
 module.exports = mongoose.model('carts', cartSchema)

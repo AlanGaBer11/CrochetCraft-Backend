@@ -19,57 +19,48 @@ const getOrderById = async (id) => {
 // CREAR UNA ORDEN A PARTIR DEL CARRITO
 const createOrder = async (userId, metodoPago) => {
   try {
-    // 1. Obtener el carrito del usuario
     const cart = await CartModel.findOne({ userId }).populate('items.productId')
     if (!cart || cart.items.length === 0) {
       throw new Error('Carrito vacío o no encontrado')
     }
 
-    // 2. Calcular el precio total y preparar los items
-    let precioTotal = 0
     const orderItems = []
 
     for (const item of cart.items) {
-      const product = item.productId // Aquí ya tienes el producto completo con los datos necesarios
+      const product = item.productId
 
-      // Verificar stock
+      // Validar stock
       if (product.stock < item.cantidad) {
-        throw new Error(`Stock insuficiente para ${product.nombre}`)
+        throw new Error(`Stock insuficiente para ${product.nombre} (disponible: ${product.stock}, solicitado: ${item.cantidad})`)
       }
 
-      // Actualizar stock
+
+      // Descontar stock
       await productModel.findByIdAndUpdate(
         product._id,
         { $inc: { stock: -item.cantidad } }
       )
 
-      // Calcular subtotal para este item
-      const precioUnitario = product.precio
-      const subtotal = precioUnitario * item.cantidad
-      precioTotal += subtotal
-
       orderItems.push({
         productId: product._id,
-        nombre: product.nombre, // Aquí se agrega el nombre del producto
-        categoria: product.categoria, // Aquí se agrega la categoría del producto
+        nombre: product.nombre,
+        categoria: product.categoria,
         cantidad: item.cantidad,
-        precio: precioUnitario,
-        subtotal
+        precio: product.precio,
+        subtotal: product.precio * item.cantidad
       })
     }
 
-    // 3. Crear la orden
     const newOrder = new OrderModel({
       userId,
       items: orderItems,
-      precioTotal,
+      precioTotal: cart.precioTotal, // usamos directamente el total del carrito
       status: 'Pendiente',
       metodoPago
     })
 
     await newOrder.save()
 
-    // 4. Vaciar el carrito
     await CartModel.findOneAndDelete({ userId })
 
     return newOrder

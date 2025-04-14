@@ -1,28 +1,24 @@
 const orderService = require('../services/orderService')
 
 const getOrders = async () => {
-  const orders = await orderService.getOrders()
-  return orders
+  return await orderService.getOrders()
 }
 
 const getOrderById = async (id) => {
-  const order = await orderService.getOrderById(id)
-  return order
+  return await orderService.getOrderById(id)
 }
 
-const createOrder = async (userId, productId, cantidad, precio, precioTotal, status, metodoPago) => {
-  const order = await orderService.createOrder(userId, productId, cantidad, precio, precioTotal, status, metodoPago)
-  return order
+// Solo se pasan userId y metodoPago, porque los demás ya se obtienen del carrito
+const createOrder = async (userId, metodoPago) => {
+  return await orderService.createOrder(userId, metodoPago)
 }
 
 const updateOrderStatus = async (id, status) => {
-  const order = await orderService.updateOrderStatus(id, status)
-  return order
+  return await orderService.updateOrderStatus(id, status)
 }
 
 const deleteOrder = async (id) => {
-  const order = await orderService.deleteOrder(id)
-  return order
+  return await orderService.deleteOrder(id)
 }
 
 module.exports = {

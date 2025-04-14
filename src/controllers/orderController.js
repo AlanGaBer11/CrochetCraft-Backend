@@ -4,13 +4,13 @@ const orderProcess = require('../processes/orderProcess')
 const getOrders = async (req, res) => {
   try {
     const orders = await orderProcess.getOrders()
-    if (!orders) {
-      return res.status(404).json({ success: false, message: 'No Hay Ordenes' })
+    if (!orders || orders.length === 0) {
+      return res.status(404).json({ success: false, message: 'No hay órdenes' })
     }
-    res.status(200).json({ success: true, message: 'Ordenes Obtenidas', orders })
+    res.status(200).json({ success: true, message: 'Órdenes obtenidas', orders })
   } catch (error) {
-    console.error('Error Al Obtener Las Ordenes:', error)
-    res.status(500).json({ success: false, message: 'Error Interno Del Servidor' })
+    console.error('Error al obtener las órdenes:', error)
+    res.status(500).json({ success: false, message: 'Error interno del servidor' })
   }
 }
 
@@ -20,12 +20,12 @@ const getOrderById = async (req, res) => {
     const { id } = req.params
     const order = await orderProcess.getOrderById(id)
     if (!order) {
-      return res.status(404).json({ success: false, message: 'Orden No Encontrada' })
+      return res.status(404).json({ success: false, message: 'Orden no encontrada' })
     }
-    res.status(200).json({ success: true, message: 'Orden Obtenida', order })
+    res.status(200).json({ success: true, message: 'Orden obtenida', order })
   } catch (error) {
-    console.error('Error Al Obtener La Orden:', error)
-    res.status(500).json({ success: false, message: 'Error Interno Del Servidor' })
+    console.error('Error al obtener la orden:', error)
+    res.status(500).json({ success: false, message: 'Error interno del servidor' })
   }
 }
 
@@ -42,12 +42,11 @@ const createOrder = async (req, res) => {
       })
     }
 
-    // Validar que el método de pago sea uno de los permitidos
     const metodosPermitidos = ['Tarjeta de Crédito', 'Tarjeta de Débito', 'Transferencia', 'Efectivo']
     if (!metodosPermitidos.includes(metodoPago)) {
       return res.status(400).json({
         success: false,
-        message: 'Método de pago no válido. Opciones permitidas: Tarjeta de Crédito, Tarjeta de Débito, Transferencia, Efectivo'
+        message: 'Método de pago no válido. Opciones permitidas: ' + metodosPermitidos.join(', ')
       })
     }
 
@@ -74,18 +73,18 @@ const updateOrderStatus = async (req, res) => {
     const { status } = req.body
 
     if (!status) {
-      return res.status(400).json({ success: false, message: 'El Estado Es Obligatorio' })
+      return res.status(400).json({ success: false, message: 'El estado es obligatorio' })
     }
 
     const updatedOrder = await orderProcess.updateOrderStatus(id, status)
     if (!updatedOrder) {
-      return res.status(404).json({ success: false, message: 'Orden No Encontrada' })
+      return res.status(404).json({ success: false, message: 'Orden no encontrada' })
     }
 
-    res.status(200).json({ success: true, message: 'Estado Actualizado', updatedOrder })
+    res.status(200).json({ success: true, message: 'Estado actualizado', updatedOrder })
   } catch (error) {
-    console.error('Error Al Actualizar Estado De Orden:', error)
-    res.status(500).json({ success: false, message: 'Error Interno Del Servidor' })
+    console.error('Error al actualizar el estado de la orden:', error)
+    res.status(500).json({ success: false, message: 'Error interno del servidor' })
   }
 }
 
@@ -95,12 +94,12 @@ const deleteOrder = async (req, res) => {
     const { id } = req.params
     const deletedOrder = await orderProcess.deleteOrder(id)
     if (!deletedOrder) {
-      return res.status(404).json({ success: false, message: 'Orden No Encontrada' })
+      return res.status(404).json({ success: false, message: 'Orden no encontrada' })
     }
-    res.status(200).json({ success: true, message: 'Orden Eliminada Correctamente' })
+    res.status(200).json({ success: true, message: 'Orden eliminada correctamente' })
   } catch (error) {
-    console.error('Error Al Eliminar La Orden:', error)
-    res.status(500).json({ success: false, message: 'Error Interno Del Servidor' })
+    console.error('Error al eliminar la orden:', error)
+    res.status(500).json({ success: false, message: 'Error interno del servidor' })
   }
 }
 

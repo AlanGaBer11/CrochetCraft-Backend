@@ -1,6 +1,5 @@
 const cartProcess = require('../processes/cartProcess')
 
-// Obtener carrito
 const getCart = async (req, res) => {
   try {
     const userId = req.user.id
@@ -16,7 +15,6 @@ const getCart = async (req, res) => {
   }
 }
 
-// Agregar producto(s) al carrito
 const addToCart = async (req, res) => {
   try {
     const { items } = req.body
@@ -42,29 +40,29 @@ const addToCart = async (req, res) => {
   }
 }
 
-// Eliminar producto por nombre
 const removeFromCart = async (req, res) => {
   try {
-    const { nombre } = req.body
+    const { nombre, cantidad } = req.body
     const userId = req.user.id
 
     if (!nombre) {
       return res.status(400).json({ success: false, message: 'El nombre del producto es obligatorio' })
     }
 
-    const cart = await cartProcess.removeFromCart(userId, nombre)
+    const cart = await cartProcess.removeFromCart(userId, nombre, cantidad)
     res.status(200).json({ success: true, message: 'Producto Eliminado Del Carrito', cart })
   } catch (error) {
     res.status(500).json({ success: false, message: error.message || 'Error Interno Del Servidor' })
   }
 }
 
-// Vaciar carrito
+
+
 const clearCart = async (req, res) => {
   try {
     const userId = req.user.id
-    const result = await cartProcess.clearCart(userId)
-    res.status(200).json({ success: true, message: 'Carrito Vaciado', result })
+    const cart = await cartProcess.clearCart(userId)
+    res.status(200).json({ success: true, message: 'Carrito Vaciado', cart })
   } catch (error) {
     res.status(error.message === 'El Carrito No Existe' ? 404 : 500)
       .json({ success: false, message: error.message || 'Error Interno Del Servidor' })
