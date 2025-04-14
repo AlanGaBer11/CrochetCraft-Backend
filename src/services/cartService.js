@@ -1,5 +1,6 @@
 const CartModel = require('../models/cartModel')
 const ProductModel = require('../models/productModel')
+const { decryptUrl } = require('../services/cryptoService')
 
 // CALCULAR EL PRECIO TOTAL
 const calcularTotal = (items) => {
@@ -8,8 +9,22 @@ const calcularTotal = (items) => {
 
 // OBTENER EL CARRITO
 const getCart = async (userId) => {
-  return await CartModel.findOne({ userId })
+  const cart = await CartModel.findOne({ userId })
+
+  if (!cart) return null
+
+  // Descifrar cada urlImagen en los items del carrito
+  const decryptedItems = cart.items.map(item => ({
+    ...item._doc,
+    urlImagen: decryptUrl(item.urlImagen)
+  }))
+
+  return {
+    ...cart._doc,
+    items: decryptedItems
+  }
 }
+
 
 // AGREGAR PRODUCTOS AL CARRITO
 const addToCart = async (userId, items) => {
@@ -36,13 +51,13 @@ const addToCart = async (userId, items) => {
       // Si ya existe, aumentar la cantidad
       cart.items[existingItemIndex].cantidad += item.cantidad
     } else {
-      // Si no existe, agregarlo
+      // Si no existe, agregarlo con descripción y urlImagen
       cart.items.push({
         productId: product._id,
         nombre: product.nombre,
-        categoria: product.categoria,
         descripcion: product.descripcion,
         urlImagen: product.urlImagen,
+        categoria: product.categoria,
         cantidad: item.cantidad,
         precioUnitario: product.precio
       })

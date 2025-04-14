@@ -10,15 +10,15 @@ const itemSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  categoria: {
-    type: String,
-    required: true
-  },
   descripcion: {
     type: String,
-    required: true
+    required: true,
   },
   urlImagen: {
+    type: String,
+    required: true,
+  },
+  categoria: {
     type: String,
     required: true
   },
