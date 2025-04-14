@@ -14,6 +14,14 @@ const itemSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  descripcion: {
+    type: String,
+    required: true
+  },
+  urlImagen: {
+    type: String,
+    required: true
+  },
   cantidad: {
     type: Number,
     required: true,

@@ -41,6 +41,8 @@ const addToCart = async (userId, items) => {
         productId: product._id,
         nombre: product.nombre,
         categoria: product.categoria,
+        descripcion: product.descripcion,
+        urlImagen: product.urlImagen,
         cantidad: item.cantidad,
         precioUnitario: product.precio
       })
