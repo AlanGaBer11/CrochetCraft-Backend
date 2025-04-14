@@ -84,22 +84,26 @@ const addToCart = async (userId, items) => {
   return cart
 }
 
-// REMOVER PRODUCTO DEL CARRITO
-const removeFromCart = async (userId, nombre, cantidad) => {
+// ACTUALIZAR CANTIDAD DE UN PRODUCTO EN EL CARRITO
+const updateCartItem = async (userId, nombre, cantidad, isIncrement = true) => {
   const cart = await CartModel.findOne({ userId })
   if (!cart) throw new Error('El Carrito No Existe')
 
   const itemIndex = cart.items.findIndex(item => item.nombre === nombre)
-  if (itemIndex === -1) throw new Error('Producto No Encontrado')
+  if (itemIndex === -1) throw new Error('Producto No Encontrado En El Carrito')
 
-  const item = cart.items[itemIndex]
-
-  if (!cantidad || cantidad >= item.cantidad) {
-    // Eliminar producto completamente si no se especifica cantidad o si la cantidad es mayor o igual a la cantidad del producto en el carrito
-    cart.items.splice(itemIndex, 1)
+  if (isIncrement) {
+    // Incrementar la cantidad
+    cart.items[itemIndex].cantidad += cantidad
   } else {
-    // De lo contrario, solo reducir la cantidad
-    item.cantidad -= cantidad
+    // Decrementar la cantidad
+    if (cart.items[itemIndex].cantidad <= cantidad) {
+      // Si la cantidad a decrementar es mayor o igual a la cantidad actual, eliminar el producto
+      cart.items.splice(itemIndex, 1)
+    } else {
+      // De lo contrario, decrementar la cantidad
+      cart.items[itemIndex].cantidad -= cantidad
+    }
   }
 
   // Recalcular el precio total
@@ -108,6 +112,17 @@ const removeFromCart = async (userId, nombre, cantidad) => {
   await cart.save()
   return cart
 }
+
+// ELIMINAR POODUCTO DEL CARRITO
+const removeFromCart = async (userId, nombre) => {
+  const cart = await CartModel.findOne({ userId });
+
+  if (!cart) throw new Error("El Carrito No Existe");
+
+  cart.items = cart.items.filter(item => item.nombre !== nombre)
+  await cart.save();
+  return cart;
+};
 
 
 // VACIAR CARRITO
@@ -125,6 +140,7 @@ const clearCart = async (userId) => {
 module.exports = {
   getCart,
   addToCart,
+  updateCartItem,
   removeFromCart,
   clearCart
 }

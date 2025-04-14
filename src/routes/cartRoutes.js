@@ -8,6 +8,7 @@ const router = express.Router()
 router
   .get('/', authenticateUser, cartController.getCart)
   .post('/add', validateCart, authenticateUser, cartController.addToCart)
+  .patch('/update', authenticateUser, cartController.updateCartItem)
   .delete('/remove', authenticateUser, cartController.removeFromCart)
   .delete('/clear', authenticateUser, cartController.clearCart)
 

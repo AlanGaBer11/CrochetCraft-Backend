@@ -8,9 +8,13 @@ const addToCart = async (userId, items) => {
   return await cartService.addToCart(userId, items)
 }
 
-const removeFromCart = async (userId, nombre, cantidad) => {
-  return await cartService.removeFromCart(userId, nombre, cantidad)
+const updateCartItem = async (userId, nombre, cantidad, isIncrement) => {
+  return await cartService.updateCartItem(userId, nombre, cantidad, isIncrement)
 }
+
+const removeFromCart = async (userId, nombre) => {
+  return await cartService.removeFromCart(userId, nombre);
+};
 
 const clearCart = async (userId) => {
   return await cartService.clearCart(userId)
@@ -19,6 +23,7 @@ const clearCart = async (userId) => {
 module.exports = {
   getCart,
   addToCart,
+  updateCartItem,
   removeFromCart,
   clearCart
 }

@@ -40,22 +40,53 @@ const addToCart = async (req, res) => {
   }
 }
 
-const removeFromCart = async (req, res) => {
+const updateCartItem = async (req, res) => {
   try {
-    const { nombre, cantidad } = req.body
+    const { nombre, cantidad, operacion } = req.body
     const userId = req.user.id
 
     if (!nombre) {
       return res.status(400).json({ success: false, message: 'El nombre del producto es obligatorio' })
     }
 
-    const cart = await cartProcess.removeFromCart(userId, nombre, cantidad)
-    res.status(200).json({ success: true, message: 'Producto Eliminado Del Carrito', cart })
+    if (isNaN(cantidad) || cantidad <= 0) {
+      return res.status(400).json({ success: false, message: 'La cantidad debe ser un número positivo' })
+    }
+
+    // Determinar si incrementar o decrementar basado en el parámetro 'operacion'
+    // Si operacion es 'incrementar' o no se especifica, incrementar
+    // Si operacion es 'decrementar', decrementar
+    const isIncrement = operacion !== 'decrementar';
+    
+    const cart = await cartProcess.updateCartItem(userId, nombre, cantidad, isIncrement)
+    
+    const message = isIncrement 
+      ? 'Cantidad de producto incrementada en el carrito' 
+      : 'Cantidad de producto reducida en el carrito';
+      
+    res.status(200).json({ success: true, message, cart })
   } catch (error) {
     res.status(500).json({ success: false, message: error.message || 'Error Interno Del Servidor' })
   }
 }
 
+const removeFromCart = async (req, res) => {
+  try {
+    const { nombre } = req.body;
+    const userId = req.user.id;
+
+    if (!nombre) {
+      return res
+        .status(400)
+        .json({ success: false, message: "ID del producto es obligatorio" });
+    }
+
+    const cart = await cartProcess.removeFromCart(userId, nombre);
+    res.status(200).json({ success: true, data: cart });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 
 
 const clearCart = async (req, res) => {
@@ -72,6 +103,7 @@ const clearCart = async (req, res) => {
 module.exports = {
   getCart,
   addToCart,
+  updateCartItem,
   removeFromCart,
   clearCart
 }
